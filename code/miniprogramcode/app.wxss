@@ -1,4 +1,9 @@
 /**app.wxss**/
+/* 项目主色调
+  #1abc9c
+*/
+/* 引用阿里图标库 */
+@import "/static/iconfont/iconfont.wxss";
 .container {
   height: 100%;
   display: flex;
