@@ -5,6 +5,7 @@
   flex-direction: column;
   /* width: 100%; */
   height: 100vh;
+  /* min-height:101vh; */
   background-color: #f5f5f5;
 }
 
@@ -20,6 +21,19 @@
   box-sizing: border-box;
 }
 
+.serach_icon {
+  z-index: 10;
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  /* border: 1rpx solid red; */
+  left: 45rpx;
+  top: 50%;
+  margin-top: -16rpx;
+  font-size: 36rpx;
+  color: #808080;
+}
+
 .search_input {
   position: absolute;
   width: calc(100% - 180rpx);
@@ -30,14 +44,15 @@
 .search_wrapper .search_input input {
   display: inline-block;
   position: absolute;
-  width: calc(100% - 240rpx);
+  width: calc(100% - 260rpx);
   height: 80rpx;
   top: 50%;
   margin: -40rpx 0rpx 0rpx 30rpx;
   border: 1rpx solid #f5f5f5;
   background-color: #fff;
   border-radius: 30rpx;
-  padding-left: 30rpx;
+  padding-left: 50rpx;
+  /* padding-left: 30rpx; */
   padding-right: 60rpx;
 }
 
@@ -135,7 +150,7 @@
   /* flex: 0 0 50%; */
   float: left;
   width: 50%;
-  height: 100%;
+  /* height: calc(100% - 40rpx); */
   /* background-color: brown; */
   position: relative;
 }
@@ -144,7 +159,7 @@
   /* flex: 1; */
   float: right;
   width: 50%;
-  height: 100%;
+  /* height: calc(100% - 40rpx); */
   /* background-color: aquamarine; */
   /* padding-bottom: 30rpx; */
 }
@@ -226,3 +241,38 @@ image {
   background: transparent;
 }
 
+.bottom {
+  /* z-index: 30; */
+  /* position: relative; */
+  /* bottom: 20rpx; */
+  /* position: absolute; */
+  float: right;
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  padding-bottom: 20rpx;
+  font-size: 28rpx;
+  color: #808080;
+  /* margin-bottom: 30rpx; */
+}
+
+.to_top {
+  z-index: 30;
+  position: fixed;
+  bottom: 30rpx;
+  right: 30rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  box-shadow: 0rpx 0rpx 6rpx #808080;
+  background-color: #fff;
+  line-height: 80rpx;
+  text-align: center;
+  /* font-size: 36rpx; */
+}
+
+.to_top text {
+  font-size: 50rpx;
+  color: #5f5f5f;
+}

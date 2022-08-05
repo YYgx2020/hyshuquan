@@ -21,7 +21,7 @@ App({
         // console.log(fd) // 缓存数据
         // 传递给首页
         // this.globalData.bookAllData = fd;
-        wx.setStorageSync('bookAllData', fd)
+        wx.setStorageSync('allBookList', fd)
         // console.log(res.timeStamp) // 客户端拿到缓存数据的时间戳
         // console.log(res.path) // 页面路径
         // console.log(res.query) // query 参数
