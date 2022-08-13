@@ -84,7 +84,7 @@ Page({
   // 从缓存中获取预加载的数据并进行处理
   getBookList() {
     let {
-      current,
+      current,  // 这里没有用到，可以删除
       allBookList
     } = this.data
 
