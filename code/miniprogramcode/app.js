@@ -1,4 +1,5 @@
 // app.js
+// app.js
 App({
   onLaunch() {
     // 使用云函数功能记得在app.js中初始化
