@@ -11,10 +11,10 @@ exports.main = async (event, context) => {
   try {
     return await db.collection("users").add({
       data: {
-        userName: event.nickName,
-        userAvatar: event.avatarUrl,
+        userName: event.userName,
+        userAvatar: event.userAvatar,
         userPhone: '',
-        address: '',
+        address: [],
         shoppingCartID: '',
         collections: [],
         openid: event.openid,

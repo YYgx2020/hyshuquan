@@ -6,7 +6,10 @@
     "pages/my/my",
     "pages/search/search",
     "pages/bookDetail/bookDetail",
-    "pages/comments/comments"
+    "pages/comments/comments",
+    "pages/order/order",
+    "pages/address/address",
+    "pages/collection/colletion"
   ],
   "window": {
     "backgroundTextStyle": "dark",

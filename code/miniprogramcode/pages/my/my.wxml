@@ -1,2 +1,61 @@
 <!--pages/my/my.wxml-->
-<text>pages/my/my.wxml</text>
+<view class="my_page">
+  <view  class="header">
+    <view wx:if="{{!userInfo}}" class="no_login_panel">
+      <view class="user_avatar" bindtap="login">
+        <image src="../../images/user_avatar.png"></image>
+      </view>
+      <view class="user_name">
+        <text>未登录</text>
+        <text>请点击左侧头像登录</text>
+      </view>
+    </view>
+    <view wx:else class="login_panel">
+      <view class="user_avatar">
+        <image src="{{userInfo.userAvatar}}"></image>
+      </view>
+      <view class="user_name">
+        <text style="color: #000;">{{userInfo.userName}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="user_order_panel">
+    <view class="title">
+      <view class="title_left">
+        <text>我的订单</text>
+      </view>
+      <view class="look_all_order" hover-class="hover" bindtap="toAllOrderPage">
+        <text>查看全部订单</text>
+        <icon class="iconfont icon-xiangyou1"></icon>
+      </view>
+    </view>
+    <view class="order_fun_panel">
+      <view hover-class="fun_hover" class="fun_list_item" wx:for="{{funList}}" wx:key="{{index}}" bindtap="toAllOrderPage">
+        <icon class="iconfont {{item.icon}}"></icon>
+        <text>{{item.text}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="more_fun_panel">
+    <view class="fun_item" bindtap="toCarPage" hover-class="hover">
+      <icon class="iconfont icon-31gouwuchexuanzhong"></icon>
+      <text>购物车</text>
+      <icon class="iconfont icon-xiangyou1"></icon>
+    </view>
+    <view class="fun_item" hover-class="hover" bindtap="toAddressPage">
+      <icon class="iconfont icon-shouhuodizhi"></icon>
+      <text>收货地址</text>
+      <icon class="iconfont icon-xiangyou1"></icon>
+    </view>
+    <view class="fun_item" hover-class="hover">
+      <icon class="iconfont icon-shoucang"></icon>
+      <text>收藏列表</text>
+      <icon class="iconfont icon-xiangyou1"></icon>
+    </view>
+    <view wx:if="{{userInfo}}" class="fun_item" bindtap="layoutEvent" hover-class="hover">
+      <icon class="iconfont icon-tongyong-tuichudenglutubiao"></icon>
+      <text>退出登录</text>
+      <icon class="iconfont icon-xiangyou1"></icon>
+    </view>
+  </view>
+</view>
