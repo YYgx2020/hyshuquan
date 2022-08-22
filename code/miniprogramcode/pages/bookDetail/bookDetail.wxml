@@ -1,2 +1,151 @@
 <!--pages/bookDetail/bookDetail.wxml-->
-<text>pages/bookDetail/bookDetail.wxml</text>
+<view class="detail_container">
+  <view class="top_tag">
+    <text bindtap="toViewClick" data-hash="product" class="{{tag == 0? 'active': ''}}">商品</text>
+    <text class="{{tag == 1? 'active': ''}}" bindtap="toViewClick" data-hash="comments">评论</text>
+    <text class="{{tag == 2? 'active': ''}}" bindtap="toViewClick" data-hash="details">详情</text>
+  </view>
+  <!-- 中间内容区域 -->
+  <scroll-view enhanced 	bindscroll="scrollEvent" scroll-into-view="{{toView}}" scroll-y="true" class="main_container" scroll-with-animation="true">
+    <!-- 图片、价格、书名 -->
+    <view class="header_wrapper" id="product">
+      <view class="cover">
+        <!-- {{bookInfo.cover}} -->
+        <image mode="center" src="{{bookInfo.cover}}" bindtap='clickImg' data-src="{{bookInfo.cover}}"></image>
+      </view>
+      <view class="price">
+        <text>￥</text>
+        <text>{{bookInfo.price}}</text>
+      </view>
+      <view class="bookName">
+        <text>{{bookInfo.bookName}}</text>
+      </view>
+    </view>
+    <!-- 图书的其他信息 -->
+    <view class="other_info">
+      <view class="info_item">
+        <text>作者</text>
+        <text>{{bookInfo.author[0]}}</text>
+        <!-- <icon class="iconfont icon-xiangyou1"></icon> -->
+      </view>
+      <view class="info_item">
+        <text>出版社</text>
+        <text>{{bookInfo.press}}</text>
+        <!-- <icon class="iconfont icon-xiangyou1"></icon> -->
+      </view>
+      <view class="info_item">
+        <text>分类</text>
+        <text>{{bookInfo.subcat}}</text>
+        <!-- <icon class="iconfont icon-xiangyou1"></icon> -->
+      </view>
+      <view class="info_item">
+        <text>ISBN</text>
+        <text>{{bookInfo.ISBN}}</text>
+      </view>
+      <view class="info_item">
+        <text>页数</text>
+        <text>{{bookInfo.pages}}</text>
+      </view>
+      <view class="info_item">
+        <text>出版年份</text>
+        <text>{{bookInfo.year}}</text>
+      </view>
+    </view>
+    <!-- 评论 -->
+    <view class="comments_container" id="comments">
+      <view class="title">
+        <text>评论</text>
+        <text decode="true">&nbsp;&nbsp;{{bookInfo.comments.length}}</text>
+      </view>
+      <view class="comments_item" wx:for="{{comments}}" wx:key="index">
+        <view class="user_info">
+          <image src="{{item.avatar}}"></image>
+          <view class="user_other_info">
+            <text>{{item.userName}}</text>
+            <view class="star_num">
+              <icon wx:for="{{item.arr}}" class="iconfont icon-xingxing"></icon>
+            </view>
+          </view>
+          <!-- 用户评价时间 -->
+          <!-- <view class="time">
+            <text>2022-08-01 12:30:58</text>
+          </view> -->
+        </view>
+        <view class="{{(item.content.length > 55 && index !== current) ? 'content': 'content_2'}}">
+          <!-- wx-if="{{index !== current}}" -->
+          <text user-select="true" class="not_show_more">{{item.content}}</text>
+
+          <!-- <text>{{item.content.length}}</text> -->
+
+        </view>
+        <view wx:if="{{(item.content.length > 55 && index !== current)}}" class="show_more_btn" data-index='{{index}}' bindtap="openText">
+          <text>展开</text>
+          <text class="iconfont icon-xiangxia"></text>
+        </view>
+        <view wx-if="{{index === current}}" class="close_more_btn" data-index='{{index}}' bindtap="closeText">
+          <text>收起</text>
+          <text class="iconfont icon-xiangshang"></text>
+        </view>
+      </view>
+      <view wx:if="{{bookInfo.comments.length > 2}}" class="look_more_btn" bindtap="lookMoreComments">
+        <text>查看更多</text>
+      </view>
+    </view>
+    <!-- 详情 -->
+    <view class="details_card" id="details">
+      <view class="title">
+        <text>详情</text>
+      </view>
+      <!-- 内容 -->
+      <view class="details_item">
+        <view class="details_item_label">
+          <icon class="iconfont icon-danlieliebiao"></icon>
+          <text>内容简介</text>
+        </view>
+        <view class="brief_text">
+          <text user-select="true">{{bookInfo.bookBrief}}</text>
+        </view>
+      </view>
+      <!-- 作者简介 -->
+      <view class="details_item">
+        <view class="details_item_label">
+          <icon class="iconfont icon-danlieliebiao"></icon>
+          <text>作者简介</text>
+        </view>
+        <view class="brief_text">
+          <text user-select="true" decode="true">&nbsp;&nbsp;&nbsp;&nbsp;{{bookInfo.authorBrief}}</text>
+        </view>
+      </view>
+      <!-- 目录 -->
+      <view class="details_item">
+        <view class="details_item_label">
+          <icon class="iconfont icon-danlieliebiao"></icon>
+          <text>目录</text>
+        </view>
+        <view class="catalogue_text">
+          <text user-select="true">{{bookInfo.catalogue}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="space"></view>
+  </scroll-view>
+  <!-- 底部购买按钮 -->
+  <view class="bottom_container">
+    <view class="btn_item" bindtap="toIndex">
+      <icon class="iconfont icon-shouye-shouye"></icon>
+      <text>回到首页</text>
+    </view>
+    <view class="btn_item" bindtap="collectionBook">
+      <icon style="font-size: 38rpx;" class="iconfont icon-shoucang"></icon>
+      <text>收藏</text>
+    </view>
+    <view class="buy_btn">
+      <view class="add_car">
+        <text>加入购物车</text>
+      </view>
+      <view class="buy_now">
+        <text>立即购买</text>
+      </view>
+    </view>
+  </view>
+</view>

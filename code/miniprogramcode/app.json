@@ -5,7 +5,8 @@
     "pages/car/car",
     "pages/my/my",
     "pages/search/search",
-    "pages/bookDetail/bookDetail"
+    "pages/bookDetail/bookDetail",
+    "pages/comments/comments"
   ],
   "window": {
     "backgroundTextStyle": "dark",
