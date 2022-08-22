@@ -28,6 +28,13 @@ App({
         // console.log(res.scene) // 场景值
       }
     })
+    wx.cloud.callFunction({
+      name: 'getOpenID'
+    })
+    .then(res => {
+      console.log(res);
+      this.globalData.openid = res.result.openid
+    })
     // 展示本地存储能力
     // const logs = wx.getStorageSync('logs') || []
     // logs.unshift(Date.now())

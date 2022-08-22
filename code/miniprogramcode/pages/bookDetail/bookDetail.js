@@ -1,4 +1,7 @@
 // pages/bookDetail/bookDetail.js
+import {getUserProfile} from '../../utils/auth';
+const app = new getApp()
+
 Page({
 
   /**
@@ -35,38 +38,6 @@ Page({
   // 页面初始化
   init() {
     let that = this
-    let query = wx.createSelectorQuery();
-
-    // let h1 = 0;
-    query.select('#product').boundingClientRect(rect => {
-      let clientHeight = rect.height;
-      let clientWidth = rect.width;
-      let ratio = 750 / clientWidth;
-      let height = clientHeight * ratio;
-      // h1 = height;
-      console.log('product的高度', height);
-      
-    }).exec();
-    // let commentsHeight = 0
-    // query.select('#comments').boundingClientRect(rect => {
-    //   let clientHeight = rect.height;
-    //   let clientWidth = rect.width;
-    //   let ratio = 750 / clientWidth;
-    //   let height = clientHeight * ratio;
-    //   // commentsHeight = height;
-    //   console.log('comments的高度', height);
-    //   this.setData({
-    //     h2: height,
-    //   })
-    // }).exec();
-    query.select('#comments').boundingClientRect()
-    query.selectViewport().scrollOffset()
-    query.exec(function (res) {
-      console.log(res);
-      console.log('top: ', res[0].top); // #the-id节点的上边界坐标
-      console.log('scrollTop: ', res[1].scrollTop); // 显示区域的竖直滚动位置
-    })
-
     wx.createSelectorQuery().select('#comments').boundingClientRect(function (rect) {
       console.log('rect.id: ', rect.id); // 节点的ID
       rect.dataset // 节点的dataset
@@ -93,10 +64,6 @@ Page({
         h2: rect.top - 60,
       })
     }).exec()
-    // this.setData({
-    //   h1,
-    //   h2: h1 + commentsHeight + 40
-    // })
   },
 
   // 锚点定位
@@ -231,7 +198,12 @@ Page({
 
   // 收藏图书
   collectionBook() {
-    
+    if (app.globalData.userInfo) {
+      console.log('执行相应的操作');
+    } else {
+      console.log('请求授权获取用户信息');
+      getUserProfile()
+    }
   },
 
   // 展开评论
