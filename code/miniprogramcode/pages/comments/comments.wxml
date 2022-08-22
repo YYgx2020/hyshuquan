@@ -1,0 +1,32 @@
+<!--pages/comments/comments.wxml-->
+<view class="commnets_container">
+  <scroll-view class="scroll_view" scroll-y="true">
+    <view class="comments_list" wx:for="{{comments}}" wx:key="index">
+      <view class="top">
+        <image src="{{item.avatar}}"></image>
+        <view class="right_panel_info">
+          <text class="reader_name">{{item.userName}}</text>
+          <view class="star_num">
+            <icon wx:for="{{item.arr}}" class="iconfont icon-xingxing"></icon>
+          </view>
+        </view>
+      </view>
+      <view class="{{(item.content.length > 55 && index !== current) ? 'content': 'content_2'}}">
+        <!-- wx-if="{{index !== current}}" -->
+        <text class="not_show_more" user-select="true">{{item.content}}</text>
+
+        <!-- <text>{{item.content.length}}</text> -->
+
+      </view>
+      <view wx:if="{{(item.content.length > 55 && index !== current)}}" class="show_more_btn" data-index='{{index}}' bindtap="openText">
+        <text>展开</text>
+        <text class="iconfont icon-xiangxia"></text>
+      </view>
+      <view wx-if="{{index === current}}" class="close_more_btn" data-index='{{index}}' bindtap="closeText">
+        <text>收起</text>
+        <text class="iconfont icon-xiangshang"></text>
+      </view>
+    </view>
+    <view class="space"></view>
+  </scroll-view>
+</view>
