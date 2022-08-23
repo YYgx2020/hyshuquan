@@ -85,8 +85,8 @@
   position: relative;
   /* font-size: 36rpx; */
   font-weight: 700;
-  color: #1ead92;
-  /* border-bottom: 1rpx solid #1ead92; */
+  color: #00baad;
+  /* border-bottom: 1rpx solid #00baad; */
 }
 
 .active text:after {
@@ -94,7 +94,7 @@
   content: '';
   position: absolute;
   height: 4rpx;
-  background-color: #1ead92;
+  background-color: #00baad;
   /* top: 0rpx; */
   bottom: 0rpx;
   left: 0rpx;

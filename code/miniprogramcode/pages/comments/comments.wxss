@@ -35,7 +35,7 @@
 }
 
 .star_num icon {
-  color: #1abc9c;
+  color: #00baad;
   font-size: 24rpx;
 }
 

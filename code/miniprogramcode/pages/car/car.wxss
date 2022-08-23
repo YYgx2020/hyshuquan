@@ -1,1 +1,17 @@
 /* pages/car/car.wxss */
+page {
+  background-color: #fff;
+}
+
+.car_container {
+
+}
+
+.no_login {
+  margin-top: 100rpx;
+}
+
+.no_login button {
+  background-color: #00baad;
+  color: #fff;
+}

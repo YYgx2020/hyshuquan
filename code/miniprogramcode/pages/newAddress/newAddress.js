@@ -166,55 +166,67 @@ Page({
 
   // 
   deteleAddress() {
-    let {
-      index
-    } = this.data;
-    let {
-      address
-    } = JSON.parse(JSON.stringify(app.globalData.userInfo))
-    let {
-      collections,
-      openid,
-    } = app.globalData.userInfo
-    address = address.filter((item, ind) => {
-      return ind !== index
+    wx.showModal({
+      title: '提示',
+      content: '确认删除当前收货地址吗?',
+      success: res => {
+        if (res.cancel) {
+          return
+        }
+        if (res.confirm) {
+          let {
+            index
+          } = this.data;
+          // let {
+          //   address
+          // } = JSON.parse(JSON.stringify(app.globalData.userInfo))
+          // let {
+          //   collections,
+          //   openid,
+          // } = app.globalData.userInfo
+          let {userInfo} = app.globalData;
+          userInfo.address = userInfo.address.filter((item, ind) => {
+            return ind !== index
+          })
+          wx.showLoading({
+            title: '正在删除中',
+            mask: true,
+          })
+          console.log('userInfo.address: ', userInfo.address);
+          wx.cloud.callFunction({
+              name: "updateUserInfo",
+              data: userInfo,
+            }).then(res => {
+              wx.hideLoading({
+                success: (res) => {},
+              })
+              console.log(res);
+              wx.showToast({
+                title: '删除成功',
+                icon: 'success'
+              })
+              app.globalData.userInfo = userInfo;
+              wx.navigateBack({
+                // url: '/pages/address/address'
+                delta: 1
+              })
+            })
+            .catch(err => {
+              wx.showModal({
+                title: '提示',
+                content: '操作失败, 请重新尝试',
+              })
+              console.log(err);
+              return
+            })
+        }
+      }
     })
-    wx.cloud.callFunction({
-        name: "updateUserInfo",
-        data: {
-          openid,
-          address,
-          collections,
-        },
-      }).then(res => {
-        wx.hideLoading({
-          success: (res) => {},
-        })
-        wx.showToast({
-          title: '保存成功',
-          icon: 'success'
-        })
-        app.globalData.userInfo.address = address
-        wx.showToast({
-          title: '添加成功',
-          icon: 'success'
-        })
-        wx.redirectTo({
-          url: '/pages/address/address'
-        })
-      })
-      .catch(err => {
-        wx.showModal({
-          title: '提示',
-          content: '操作失败, 请重新尝试',
-        })
-        console.log(err);
-        return
-      })
+
   },
 
   // 保存收货地址
-  addressEvent() {
+  addressEvent(back) {
     let {
       formData,
       isDefault,
@@ -236,38 +248,39 @@ Page({
       }
     }
     // 获取用户的收货地址信息
-    let {
-      address
-    } = JSON.parse(JSON.stringify(app.globalData.userInfo))
-    let {
-      collections,
-      openid,
-    } = app.globalData.userInfo
-    console.log(app.globalData.userInfo);
+    // let {
+    //   address
+    // } = JSON.parse(JSON.stringify(app.globalData.userInfo))
+    // let {
+    //   collections,
+    //   openid,
+    // } = app.globalData.userInfo
+    let {userInfo} = app.globalData
+    console.log(userInfo);
     // let collections = app.globalData.userInfo
     if (!edit) {
       if (isDefault) {
-        address.unshift(formData)
+        userInfo.address.unshift(formData)
       } else {
-        address.push(formData)
+        userInfo.address.push(formData)
       }
     } else {
       // 先修改信息，再看是否要交换位置
-      address[index] = formData
-      if (index === 0 && !checked && address.length > 1) {
+      userInfo.address[index] = formData
+      if (index === 0 && !checked && userInfo.address.length > 1) {
         // 交换位置
-        let temp = address[0];
-        address[0] = address[1];
-        address[1] = temp
+        let temp = userInfo.address[0];
+        userInfo.address[0] = userInfo.address[1];
+        userInfo.address[1] = temp
       }
       if (index !== 0 && checked) {
         // 查看是否是默认的，不是则修改
-        let temp = address[index]
-        address = address.filter((item, ind) => {
+        let temp = userInfo.address[index]
+        userInfo.address = userInfo.address.filter((item, ind) => {
           return ind !== index
         })
-        console.log("address: ", address);
-        address.unshift(temp)
+        console.log("userInfo.address: ", userInfo.address);
+        userInfo.address.unshift(temp)
       }
     }
 
@@ -278,27 +291,23 @@ Page({
 
     wx.cloud.callFunction({
         name: "updateUserInfo",
-        data: {
-          openid,
-          address,
-          collections,
-        },
+        data: userInfo,
       }).then(res => {
         wx.hideLoading({
           success: (res) => {},
         })
+        console.log(res);
         wx.showToast({
           title: '保存成功',
           icon: 'success'
         })
-        app.globalData.userInfo.address = address
-        wx.showToast({
-          title: '添加成功',
-          icon: 'success'
-        })
-        wx.redirectTo({
-          url: '/pages/address/address'
-        })
+        app.globalData.userInfo = userInfo
+        if (back !== false) {
+          wx.navigateBack({
+            // url: '/pages/address/address'
+            delta: 1
+          })
+        }
       })
       .catch(err => {
         wx.showModal({
@@ -355,9 +364,10 @@ Page({
   onUnload() {
     let {
       hasEdit,
+      edit,
       index
     } = this.data;
-    if (hasEdit) {
+    if (hasEdit && edit) {
       wx.showModal({
         title: '提示',
         content: '是否保存刚才的修改？',
@@ -365,7 +375,8 @@ Page({
         cancelText: '不保存',
         success: res => {
           if (res.confirm) {
-            this.addressEvent();
+            let back = false;
+            this.addressEvent(back);
             // let pages = getCurrentPages(); // 当前页面栈
             // if (pages.length > 0) {
             //   let beforePage = pages[pages.length - 1]; //获取上一个页面实例对象                      

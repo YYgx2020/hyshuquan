@@ -52,6 +52,12 @@
       <text>收藏列表</text>
       <icon class="iconfont icon-xiangyou1"></icon>
     </view>
+    <view class="fun_item" hover-class="hover" bindtap="toChargePage">
+      <icon class="iconfont icon-qiandai"></icon>
+      <text>购书币</text>
+      <text wx:if="{{userInfo}}" class="money">￥{{userInfo.money}}</text>
+      <icon class="iconfont icon-xiangyou1"></icon>
+    </view>
     <view wx:if="{{userInfo}}" class="fun_item" bindtap="layoutEvent" hover-class="hover">
       <icon class="iconfont icon-tongyong-tuichudenglutubiao"></icon>
       <text>退出登录</text>

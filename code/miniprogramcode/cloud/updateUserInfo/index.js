@@ -8,11 +8,14 @@ cloud.init({
 // 云函数入口函数
 exports.main = async (event, context) => {
   return cloud.database().collection('users')
-  .doc(event.openid)
+  .where({
+    openid: event.openid,
+  })
   .update({
     data: {
       address: event.address,
       collections: event.collections,
+      money: event.money,
     }
   })
 }

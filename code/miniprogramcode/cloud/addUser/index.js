@@ -17,6 +17,7 @@ exports.main = async (event, context) => {
         shoppingCartID: '',
         collections: [],
         openid: event.openid,
+        money: 0,  // 账户的购书币
       },
     })
   } catch (e) {

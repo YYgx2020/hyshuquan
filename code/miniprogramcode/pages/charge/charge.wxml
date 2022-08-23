@@ -1,0 +1,22 @@
+<!--pages/charge/charge.wxml-->
+<view class="charge_container">
+  <view class="record_row" bindtap="toDealPage">
+    <text>购书币明细</text>
+  </view>
+  <view class="icon_panel">
+    <image src="../../images/bi.png"></image>
+  </view>
+  <view class="tip_text_row">
+    <text>我的购书币</text>
+  </view>
+  <view class="money">
+    <text>￥</text>
+    <text>{{userInfo.money}}</text>
+  </view>
+  <view class="charge_row">
+    <button bindtap="chargeEvent">充值</button>
+  </view>
+  <view class="cash_row" bindtap="cashEvent">
+    <button>提现</button>
+  </view>
+</view>

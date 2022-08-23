@@ -117,8 +117,8 @@
 
 .nav_item .active {
   font-size: 36rpx;
-  color: #1ead92;
-  border-bottom: 4rpx solid #1ead92;
+  color: #00baad;
+  border-bottom: 4rpx solid #00baad;
 }
 
 .nav_content {
@@ -215,7 +215,7 @@ image {
   line-height: 60rpx;
   text-align: justify;
   margin-bottom: 15rpx;
-  color: #1ead92;
+  color: #00baad;
 }
 
 .price text:first-child {

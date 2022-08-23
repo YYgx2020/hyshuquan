@@ -32,6 +32,7 @@ export const getUserProfile = async () => {
             }
           })
           console.log(p3);
+          // 全局保存用户信息
           app.globalData.userInfo = {
             userName: userInfo.nickName,
             userAvatar: userInfo.avatarUrl,
@@ -39,6 +40,7 @@ export const getUserProfile = async () => {
             address: '',
             shoppingCartID: '',
             collections: [],
+            money: 0,
           }
           wx.hideLoading({
             success: (res) => {},

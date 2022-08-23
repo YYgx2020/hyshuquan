@@ -1,2 +1,6 @@
 <!--pages/car/car.wxml-->
-<text>pages/car/car.wxml</text>
+<view class="car_container">
+  <view wx:if="{{!userInfo}}" class="no_login">
+    <button bindtap="login">登录</button>
+  </view>
+</view>

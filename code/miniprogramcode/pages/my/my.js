@@ -42,7 +42,7 @@ Page({
         toView: 'refund'
       },
     ],
-    userInfo: null,
+    userInfo: app.globalData.userInfo,
   },
 
   /**
@@ -52,6 +52,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '我的',
     })
+    console.log(app.globalData.userInfo);
     this.setData({
       userInfo: app.globalData.userInfo,
     })
@@ -118,6 +119,17 @@ Page({
     if (userInfo) {      
       wx.navigateTo({
         url: '/pages/collection/colletion',
+      })
+    } else {
+      this.login()
+    }
+  },
+
+  toChargePage() {
+    let {userInfo} = this.data
+    if (userInfo) {      
+      wx.navigateTo({
+        url: '/pages/charge/charge',
       })
     } else {
       this.login()

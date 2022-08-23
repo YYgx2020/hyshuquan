@@ -4,7 +4,7 @@
   display: flex;
   width: auto;
   height: 400rpx;
-  background-color: #1ead92;
+  background-color: #00baad;
 }
 
 .no_login_panel, .login_panel {
@@ -90,7 +90,7 @@
 }
 
 .fun_hover {
-  color: #1ead92;
+  color: #00baad;
   font-weight: 700;
 }
 
@@ -143,9 +143,10 @@
   right: 30rpx;
 }
 
-/* .fun_item:hover {
-  background-color: #dee2e6;
-} */
+.money {
+  position: absolute;
+  right: 70rpx;
+}
 
 .hover {
   background-color: #dee2e6;

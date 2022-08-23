@@ -1,0 +1,4 @@
+<!--pages/deal/deal.wxml-->
+<view class="deal_container">
+  这里是购书币交易列表页面
+</view>

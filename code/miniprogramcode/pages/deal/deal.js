@@ -1,49 +1,18 @@
-// pages/car/car.js
-import {getUserProfile} from '../../utils/auth';
-const app = new getApp()
+// pages/deal/deal.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    userInfo: app.globalData.userInfo,
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    let {
-      userInfo
-    } = app.globalData
-    this.setData({
-      userInfo,
-    })
-  },
 
-  // 获取用户购物车信息
-  getUserCarList() {
-
-  },
-
-  // 登录
-  async login() {
-    try {
-      let p = await getUserProfile()
-      console.log(p);
-      if (p) {
-        this.setData({
-          userInfo: app.globalData.userInfo
-        })
-        // 获取用户的购物车列表信息
-        this.getUserCarList();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    // console.log(getUserProfile());
-    // console.log(123);
   },
 
   /**

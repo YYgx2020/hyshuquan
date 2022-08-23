@@ -50,7 +50,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    console.log('onshow');
+    console.log(app.globalData.userInfo);
+    let {address} = JSON.parse(JSON.stringify(app.globalData.userInfo))
+    address = address.map(item => {
+      item.phone = item.phone.substring(0, 3) + '****' + item.phone.substring(7, 11)
+      return item
+    })
+    this.setData({
+      address,
+    })
   },
 
   /**

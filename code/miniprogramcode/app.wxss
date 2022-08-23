@@ -1,6 +1,7 @@
 /**app.wxss**/
 /* 项目主色调
-  #1abc9c
+  #1abc9c - 1
+  #00baad - 2
 */
 /* 引用阿里图标库 */
 @import "/static/iconfont/iconfont.wxss";
