@@ -13,7 +13,6 @@ exports.main = async (event, context) => {
       data: {
         userName: event.userName,
         userAvatar: event.userAvatar,
-        userPhone: '',
         address: [],
         shoppingCartID: '',
         collections: [],

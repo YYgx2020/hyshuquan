@@ -75,30 +75,53 @@ Page({
   },
 
   // 跳转到所有订单页面
-  toAllOrderPage() {
-    wx.navigateTo({
-      url: '/pages/order/order',
-    })
+  toAllOrderPage(e) {
+    let {userInfo} = this.data
+    let {view} = e.currentTarget.dataset;
+    if (userInfo) {      
+      wx.navigateTo({
+        url: '/pages/order/order?view=' + view,
+      })
+    } else {
+      this.login()
+    }
+    
+    
   },
 
   toCarPage() {
-    wx.switchTab({
-      url: '/pages/car/car',
-    })
+    let {userInfo} = this.data
+    if (userInfo) {      
+      wx.switchTab({
+        url: '/pages/car/car',
+      })
+    } else {
+      this.login()
+    }
   },
 
   // 跳转到收货地址页面
   toAddressPage() {
-    wx.navigateTo({
-      url: '/pages/address/address',
-    })
+    let {userInfo} = this.data
+    if (userInfo) {      
+      wx.navigateTo({
+        url: '/pages/address/address',
+      })
+    } else {
+      this.login()
+    }
   },
 
   // 跳转到收藏列表页面
   toCollectionPage() {
-    wx.navigateTo({
-      url: '/pages/collection/colletion',
-    })
+    let {userInfo} = this.data
+    if (userInfo) {      
+      wx.navigateTo({
+        url: '/pages/collection/colletion',
+      })
+    } else {
+      this.login()
+    }
   },
 
   // 退出登录

@@ -30,6 +30,27 @@
           "query": "_id=26da8e4962ea0891042c37f22cd72d83",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "所有订单",
+          "pathName": "pages/order/order",
+          "query": "view=quanbu",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "收货地址",
+          "pathName": "pages/address/address",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "新增收货地址",
+          "pathName": "pages/newAddress/newAddress",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

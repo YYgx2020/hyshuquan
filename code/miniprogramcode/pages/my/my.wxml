@@ -24,13 +24,13 @@
       <view class="title_left">
         <text>我的订单</text>
       </view>
-      <view class="look_all_order" hover-class="hover" bindtap="toAllOrderPage">
+      <view data-view="quanbu" class="look_all_order" hover-class="hover" bindtap="toAllOrderPage">
         <text>查看全部订单</text>
         <icon class="iconfont icon-xiangyou1"></icon>
       </view>
     </view>
     <view class="order_fun_panel">
-      <view hover-class="fun_hover" class="fun_list_item" wx:for="{{funList}}" wx:key="{{index}}" bindtap="toAllOrderPage">
+      <view data-view="{{item.toView}}" hover-class="fun_hover" class="fun_list_item" wx:for="{{funList}}" wx:key="index" bindtap="toAllOrderPage">
         <icon class="iconfont {{item.icon}}"></icon>
         <text>{{item.text}}</text>
       </view>
@@ -47,7 +47,7 @@
       <text>收货地址</text>
       <icon class="iconfont icon-xiangyou1"></icon>
     </view>
-    <view class="fun_item" hover-class="hover">
+    <view class="fun_item" hover-class="hover" bindtap="toCollectionPage">
       <icon class="iconfont icon-shoucang"></icon>
       <text>收藏列表</text>
       <icon class="iconfont icon-xiangyou1"></icon>

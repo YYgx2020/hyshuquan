@@ -1,42 +1,18 @@
-// pages/address/address.js
-const app = new getApp()
+// pages/orderSearch/orderSearch.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    userInfo: null,
-    address: [],
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log(app.globalData.userInfo);
-    let {address} = JSON.parse(JSON.stringify(app.globalData.userInfo))
-    address = address.map(item => {
-      item.phone = item.phone.substring(0, 3) + '****' + item.phone.substring(7, 11)
-      return item
-    })
-    this.setData({
-      address,
-    })
-  },
 
-  editAddress(e) {
-    let {index} = e.currentTarget.dataset;
-    wx.navigateTo({
-      url: '/pages/newAddress/newAddress?index=' + index,
-    })
-  },
-
-  // 新增用户收货地址
-  addressEvent() {
-    wx.navigateTo({
-      url: '/pages/newAddress/newAddress',
-    })
   },
 
   /**

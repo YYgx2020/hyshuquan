@@ -1,0 +1,47 @@
+<!--pages/newAddress/newAddress.wxml-->
+<view class="new_address_container">
+  <view wx:if="{{edit}}" class="delete_btn">
+    <text bindtap="deteleAddress">删除</text>
+  </view>
+  <view class="form_panel">
+    <view class="form_item">
+      <text>收货人</text>
+      <input value="{{formData.consignee}}" bindblur="getName" type="text" placeholder="请填写收货人姓名"/>
+    </view>
+    <view class="form_item">
+      <text>手机号码</text>
+      <input maxlength="11" value="{{formData.phone}}" bindblur="getPhone" type="text" placeholder="请填写收货人手机号"/>
+    </view>
+    <view class="form_item">
+      <text>所在地区</text>
+      <text bindtap="chooseArea" style="color: #888a88;">{{formData.area? formData.area: '省市区县、乡镇等'}}</text>
+      <!-- <input type="text" placeholder=""/> -->
+      <!-- <view class="location">
+        <icon class="iconfont icon-31dingwei"></icon>
+        <text>定位</text>
+      </view> -->
+    </view>
+    <view class="form_item">
+      <text>详细地址</text>
+      <!-- <input type="text" placeholder="街道、楼牌号码" placeholder-class="#ced4da"/> -->
+      <text wx:if="{{!detailsTouch}}" bindtap="detailsTouch">街道、楼牌号码</text>
+      <textarea bindblur="textareaBlur" bindinput="textareaInput"  value="{{formData.detail}}"	wx:if="{{detailsTouch}}" auto-focus="true" placeholder=""></textarea>
+      <icon wx:if="{{detailsTouch}}" bindtap="closeTexteara" class="iconfont icon-quxiao"></icon>
+    </view>
+  </view>
+  <view class="default_panel">
+    <view class="left">
+      <text>设为默认收货地址</text>
+      <text>提醒：
+        下单会优先使用该地址，
+        您的第一个地址将会被设置为默认收货地址
+      </text>
+    </view>
+    <view class="right">
+      <switch checked="{{checked}}" color="#00baad" bindchange="switchEvent"></switch>
+    </view>
+  </view>
+  <view class="add_address">
+    <button bindtap="addressEvent">保存</button>
+  </view>
+</view>

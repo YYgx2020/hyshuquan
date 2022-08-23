@@ -3,6 +3,10 @@ const app = getApp()
 
 export const getUserProfile = async () => {
   return new Promise((resolve, reject) => {
+    wx.showLoading({
+      title: '正在登录中',
+      mask: true
+    })
     setTimeout(async () => {
       console.log(1);
       try {
@@ -27,22 +31,43 @@ export const getUserProfile = async () => {
               openid: app.globalData.openid
             }
           })
+          console.log(p3);
           app.globalData.userInfo = {
             userName: userInfo.nickName,
             userAvatar: userInfo.avatarUrl,
             openid: app.globalData.openid,
-            userPhone: '',
             address: '',
             shoppingCartID: '',
             collections: [],
           }
+          wx.hideLoading({
+            success: (res) => {},
+          })
+          wx.showToast({
+            title: '登录成功',
+            icon: 'success'
+          })
           resolve(true)
         } else {
           // 直接获取用户信息
           app.globalData.userInfo = p2.data[0]
+          wx.hideLoading({
+            success: (res) => {},
+          })
+          wx.showToast({
+            title: '登录成功',
+            icon: 'success'
+          })
           resolve(true)
         }
       } catch (error) {
+        wx.hideLoading({
+          success: (res) => {},
+        })
+        wx.showToast({
+          title: '登录失败',
+          icon: 'error'
+        })
         resolve(error)
       }
     })

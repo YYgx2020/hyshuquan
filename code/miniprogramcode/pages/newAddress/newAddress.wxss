@@ -1,0 +1,129 @@
+/* pages/newAddress/newAddress.wxss */
+
+.delete_btn {
+  /* background-color: #fff; */
+  padding: 20rpx;
+  margin-right: 20rpx;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form_panel {
+  padding: 30rpx 40rpx;
+  background-color: #fff;
+}
+
+.form_item {
+  display: flex;
+  line-height: 80rpx;
+  align-items: center;
+  position: relative;
+}
+
+.form_item text:first-child {
+  width: 150rpx;
+}
+
+.form_item:last-child {
+  display: flex;
+  height: 160rpx;
+  /* line-height: 160rpx; */
+}
+
+.form_item:last-child text:first-child {
+  /* line-height: 80rpx; */
+  position: absolute;
+  /* position: relative; */
+  /* width: 150rpx; */
+  top: 0rpx;
+}
+
+
+.form_item:last-child text:last-child {
+  position: absolute;
+  left: 150rpx;
+  top: 0rpx;
+  color: #888a88;
+}
+
+.form_item:last-child input {
+  position: absolute;
+  width: calc(100vw - 280rpx);
+  height: 160rpx;
+  /* top: 0rpx; */
+  top: 20rpx;
+  left: 150rpx;
+  line-height: 80rpx;
+}
+
+.form_item:last-child textarea {
+  position: absolute;
+  top: 0rpx;
+  left: 150rpx;
+  width: calc(100vw - 280rpx);
+  height: 150rpx;
+  padding-top: 20rpx;
+  line-height: 40rpx;
+  /* border: 1rpx solid red; */
+  /* margin-top: 26rpx; */
+  /* padding-top: 26rpx; */
+}
+
+.form_item:last-child icon {
+  position: absolute;
+  right: 10rpx;
+}
+
+.default_panel {
+  display: flex;
+  justify-content: space-between;
+  height: 200rpx;
+  background-color: #fff;
+  margin-top: 30rpx;
+  /* margin-left: 30rpx; */
+  padding: 0rpx 30rpx;
+  /* box-sizing: content-box; */
+  /* width: calc(100% - 60rpx); */
+  border-bottom-left-radius: 30rpx;
+  border-bottom-right-radius: 30rpx;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.left text:first-child {
+  padding-top: 20rpx;
+}
+
+.left text:last-child {
+  font-size: 24rpx;
+  /* padding-top: 10rpx; */
+  padding-bottom: 20rpx;
+  color: #888a88;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.add_address {
+  position: absolute;
+  bottom: 0rpx;
+  width: 100%;
+  height: 100rpx;
+  margin-bottom: 20rpx;
+  /* background-color: #f5f5f5; */
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+}
+
+.add_address button {
+  background-color: #00baad;
+  border-radius: 40rpx;
+  color: #fff;
+}
