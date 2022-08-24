@@ -1,17 +1,240 @@
 /* pages/car/car.wxss */
 page {
-  background-color: #fff;
+  background-color: #f5f5f5;
 }
 
 .car_container {
-
+  position: relative;
+  height: 100vh;
 }
 
 .no_login {
-  margin-top: 100rpx;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 400rpx;
 }
 
 .no_login button {
   background-color: #00baad;
   color: #fff;
+}
+
+.top_row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.top_row_item {
+  line-height: 80rpx;
+  padding: 0 40rpx;
+}
+
+.top_row_item:first-child {
+  color: #00baad;
+  font-weight: 700;
+}
+
+.car_data_scroll {
+  width: 100%;
+  height: calc(100vh - 200rpx);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 20rpx;
+  width: calc(100% - 40rpx);
+  border-radius: 20rpx;
+  padding: 40rpx 20rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.checkbox_group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 未选中时--样式更改 */
+checkbox .wx-checkbox-input{
+  border-radius: 50%;/* 圆角 */
+  width: 40rpx; /* 背景的宽 */
+  height: 40rpx; /* 背景的高 */
+  border: 1rpx solid #aaa; /* 边框颜色*/
+}
+/* 选中后的--样式更改 */
+checkbox .wx-checkbox-input.wx-checkbox-input-checked{
+  border: 1rpx solid #00baad;
+  background: #00baad;/*背景色*/
+}
+/* 选中后的--对勾的样式更改 （可根据自己需求修改） */
+checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
+  border-radius: 50%;/* 圆角 */
+  width: 40rpx;/* 选中后对勾大小，不要超过背景的尺寸 */
+  height: 40rpx;/* 选中后对勾大小，不要超过背景的尺寸 */
+  line-height: 40rpx;
+  text-align: center;/* 文字居中显示*/
+  font-size:30rpx; /* 对勾大小 30rpx */
+  color:#fff; /* 对勾颜色 白色 */
+  background: transparent;
+  transform:translate(-50%, -50%) scale(1);
+  -webkit-transform:translate(-50%, -50%) scale(1);
+}
+
+.item_left {
+  margin-right: 20rpx;
+}
+
+.item_right {
+  /* 占满剩余的宽度 */
+  flex-grow: 1;
+}
+
+.shop_name {
+  line-height: 40rpx;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+  display: none;
+}
+
+.content_row {
+  display: flex;
+  /* background-color: #fff; */
+}
+
+.content_row_left {
+  width: 180rpx;
+  height: 200rpx;
+  /* border-radius: 10rpx; */
+  margin-right: 30rpx;
+}
+
+.content_row_left image {
+  width: 100%;
+  height: 100%;
+  border-radius: 20rpx;
+}
+
+.content_row_right {
+  /* flex: 1 1 0rpx; */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* width: ; */
+}
+
+.content_row_right_top .book_name {
+  font-size: 36rpx;
+}
+
+.content_row_right_bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.content_row_right_bottom .price {
+  padding-top: 10rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  color: #00baad;
+  font-weight: 700;
+}
+
+.content_row_right_bottom .price text:first-child {
+  font-size: 24rpx;
+}
+
+.content_row_right_bottom .price text:last-child {
+  font-size: 32rpx;
+}
+
+.num_pancel {
+  margin-right: 10rpx;
+  /* display: flex; */
+  /* align-items: center; */
+}
+
+.num_pancel icon {
+  /* line-height: 40rpx; */
+  /* text-align: center; */
+  /* padding-bottom: 20rpx; */
+}
+
+.num_pancel text {
+  /* font-size: 32rpx; */
+  /* padding: 0 10rpx; */
+}
+
+.num_pancel .num_show {
+  z-index: 100;
+  padding: 0rpx 30rpx;
+  background-color: #f5f5f5;
+  margin: 0 10rpx;
+}
+
+.car_data_scroll .space {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  padding: 40rpx;
+}
+
+.control_row {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  line-height: 110rpx;
+  padding: 0rpx 40rpx;
+}
+
+.total_price {
+  margin-left: 20rpx;
+}
+
+.total_price text:last-child {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.settle {
+  width: 280rpx;
+  line-height: 100rpx;
+  position: absolute;
+  right: 20rpx;
+}
+
+.settle button {
+  width: 100% !important;
+  border-radius: 40rpx;
+  font-weight: 500;
+  color: #fff;
+  background-color: #00baad;
+}
+
+.detele {
+  /* line-height: 36rpx; */
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  width: 100rpx;
+  border-radius: 30rpx;
+  border: 1rpx solid #333;
+  position: absolute;
+  right: 30rpx;
+}
+
+/* 禁止减 */
+.disabled {
+  color: #adb5bd;
 }

@@ -140,7 +140,7 @@
       <text>收藏</text>
     </view>
     <view class="buy_btn">
-      <view class="add_car">
+      <view class="add_car" bindtap="addToCarEvent">
         <text>加入购物车</text>
       </view>
       <view class="buy_now">

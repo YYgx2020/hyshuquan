@@ -206,6 +206,133 @@ Page({
     }
   },
 
+  async login() {
+    try {
+      let p = await getUserProfile()
+      console.log(p);
+      if (p) {
+        this.setData({
+          userInfo: app.globalData.userInfo
+        })
+        // 获取用户的购物车列表信息
+        this.getUserCarList();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // console.log(getUserProfile());
+    // console.log(123);
+  },
+
+  // 将当前图书加入购物车
+  async addToCarEvent() {
+    // 获取当前图书的部分信息
+    let {_id, bookName, cover, price} = this.data.bookInfo
+    let book = {
+      _id,
+      name: bookName,
+      cover,
+      price,
+    }
+    // 先检查是否登录
+    try {
+      let {userInfo} = app.globalData
+      if (!userInfo) {
+        let p = await getUserProfile()
+        console.log(p);
+        if (p) {
+          // this.setData({
+          //   userInfo: app.globalData.userInfo
+          // })
+          // // 获取用户的购物车列表信息
+          this.addBookToCar(book)
+          // this.getUserCarList();
+        }
+      } else {
+        this.addBookToCar(book)
+      }
+    } catch (error) {
+      console.log(error);
+      wx.showToast({
+        title: '登录失败',
+        icon: 'error'
+      })
+    }
+  },
+
+  async addBookToCar(book) {
+    /* 
+      执行逻辑：
+      1. 先去购物车表查看当前图书的 _id 和 openid 是否存在记录
+        如果存在，则将该记录的 num 值加1
+        如果不存在，则增加一条记录
+    */
+   wx.showLoading({
+     title: '正在加入购物车',
+     mask: true,
+   })
+   let {userInfo} = app.globalData
+   try {
+    let p1 = await wx.cloud.database().collection('cars').where({
+      openid: userInfo.openid,
+      bookID: book._id,
+    }).get()
+    console.log('p1: ', p1);
+    if (p1.data.length === 1) {
+      // 更新记录
+      let p2 = wx.cloud.database().collection('cars').where({
+        openid: userInfo.openid,
+      }).update({
+        data: {
+          num: p1.data[0].num + 1
+        }
+      })
+      console.log('p2: ', p2);
+      wx.hideLoading({
+        success: (res) => {},
+      })
+      wx.showToast({
+        title: '添加成功',
+        icon: 'success',
+        mask: true
+      })
+    } else {
+      // 增加记录
+      let p3 = await wx.cloud.database().collection('cars').add({
+        data: {
+          openid: userInfo.openid,
+          bookID: book._id,
+          bookName: book.name,
+          bookPrice: book.price,
+          bookCover: book.cover,
+          num: 1,
+          bookShop: '弘毅出版社旗舰店',
+          check: true,
+        }
+      })
+      console.log('p3: ', p3);
+      wx.hideLoading({
+        success: (res) => {},
+      })
+      wx.showToast({
+        title: '添加成功',
+        icon: 'success',
+        mask: true
+      })
+    }
+   } catch (error) {
+     wx.hideLoading({
+       success: (res) => {},
+     })
+     console.log(error);
+     wx.showToast({
+       title: '添加购物车失败',
+       icon: 'error',
+       mask: true,
+     })
+   }
+  },
+
   // 展开评论
   openText(e) {
     // let {current} = this.data;

@@ -3,4 +3,72 @@
   <view wx:if="{{!userInfo}}" class="no_login">
     <button bindtap="login">登录</button>
   </view>
+  <view wx:if="{{userInfo}}" class="top_row">
+    <view class="top_row_item">
+      <text>全部</text>
+      <text style="padding-left: 20rpx;">{{carData.length}}</text>
+    </view>
+    <view class="top_row_item">
+      <text bindtap="edit">{{edit? '完成': '编辑'}}</text>
+    </view>
+  </view>
+  <scroll-view scroll-y="true" scroll-with-animation="true" wx:if="{{userInfo}}" class="car_data_scroll" enable-flex="true">
+    <checkbox-group class="checkbox_group" bindchange="checkboxChange">
+      <view class="item" wx:for="{{carData}}" wx:key="index">
+        <view class="item_left">
+          <checkbox data-id="{{item._id}}" data-check="{{item.check}}" bindtap="checkSingle" checked="{{item.check}}" value="{{item.bookPrice * item.num}}"></checkbox>
+        </view>
+        <view class="item_right">
+          <view class="shop_name">
+            <text>{{item.bookShop}}</text>
+          </view>
+          <view class="content_row">
+            <view class="content_row_left">
+              <!-- <image mode="widthFix" src="../../images/bi.png"></image> -->
+              <image mode="aspectFill" src="{{item.bookCover}}"></image>
+            </view>
+            <view class="content_row_right">
+              <view class="content_row_right_top">
+                <view class="book_name">
+                  <text>{{item.bookName}}</text>
+                </view>
+              </view>
+              <view class="content_row_right_bottom">
+                <view class="price">
+                  <text>￥</text>
+                  <text>{{item.bookPrice}}</text>
+                </view>
+                <view class="num_pancel">
+                  <icon bindtap="subtractEvent" data-id="{{item._id}}" data-num="{{item.num}}" class="{{item.num === 1? 'disabled': ''}} iconfont icon-jianhao"></icon>
+                  <text data-id="{{item._id}}" data-num="{{item.num}}" bindtap="changeNumEvent" class="num_show">{{item.num}}</text>
+                  <icon data-id="{{item._id}}" data-num="{{item.num}}" bindtap="addEvent" class="iconfont icon-jiahao1"></icon>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </checkbox-group>
+    <view class="space"></view>
+  </scroll-view>
+  <!-- 结算或者删除控制面板 -->
+  <view class="control_row">
+    <view class="checked">
+      <checkbox bindtap="checkboxChangeAll" checked="{{allChecked}}">全选</checkbox>
+    </view>
+    <block wx:if="{{!edit}}">
+      <view class="total_price">
+        <text>合计：</text>
+        <text>￥{{totalPrice}}</text>
+      </view>
+      <view class="settle">
+        <button>去结算({{goodNum}})</button>
+      </view>
+    </block>
+    <block wx:if="{{edit}}">
+      <view class="detele" bindtap="deteleEvent">
+        <text>删除</text>
+      </view>
+    </block>
+  </view>
 </view>
