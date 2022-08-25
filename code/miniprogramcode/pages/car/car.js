@@ -166,24 +166,6 @@ Page({
     })
   },
 
-  // 多选事件
-  checkboxChange(e) {
-    // console.log(e);
-    // 更新当前数据，然后重新获取
-    // this.getUserCarList();
-    // // let {totalPrice} = this.data;
-    // let totalPrice = 0;
-    // let value = e.detail.value
-    // for (let i = 0; i < value.length; i++) {
-    //   totalPrice += parseFloat(value[i])
-    // }
-    // // totalPrice += e.detail
-    // this.setData({
-    //   goodNum: value.length,
-    //   totalPrice,
-    // })
-  },
-
   // 单选事件
   checkSingle(e) {
     console.log(e);

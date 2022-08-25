@@ -82,7 +82,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    wx.setNavigationBarTitle({
+      title: '更多评论',
+    })
+    console.log(wx.getStorageSync('commentsList'));
+    let commentsList = wx.getStorageSync('commentsList')
+    this.dataInit(commentsList);
   },
 
   /**

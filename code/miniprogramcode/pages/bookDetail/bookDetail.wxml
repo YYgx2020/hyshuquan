@@ -143,7 +143,7 @@
       <view class="add_car" bindtap="addToCarEvent">
         <text>加入购物车</text>
       </view>
-      <view class="buy_now">
+      <view class="buy_now" bindtap="toPayPage">
         <text>立即购买</text>
       </view>
     </view>

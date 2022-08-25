@@ -1,0 +1,10 @@
+<!--pages/confirmPay/confirmPay.wxml-->
+<view class="confirm_pay_container">
+  <view class="total_price">
+    <text>￥</text>
+    <text>{{totalPrice}}</text>
+  </view>
+  <view class="confirm_btn">
+    <button bindtap="confirmBtn">确认付款</button>
+  </view>
+</view>

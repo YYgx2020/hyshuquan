@@ -1,0 +1,98 @@
+<!--pages/payment/payment.wxml-->
+<!-- 
+  提交订单页面，分两种入口
+  一个是从购物车页面进来的，一个是从商品详情页直接进来的
+ -->
+<view class="payment_container">
+  <!-- 顶部展示用户的收货地址 -->
+  <view wx:if="{{defaultAddress}}" class="address_panel">
+    <view class="address_panel_left">
+      <view class="name_phone_row">
+        <text>{{defaultAddress.consignee}}</text>
+        <text>{{defaultAddress.phone}}</text>
+      </view>
+      <view class="area">
+        <text class="default">默认</text>
+        <text>{{defaultAddress.area}}</text>
+      </view>
+      <view class="detail">
+        <text>{{defaultAddress.detail}}</text>
+      </view>
+    </view>
+    <view class="address_panel_right">
+      <icon class="iconfont icon-xiangyou1"></icon>
+    </view>
+  </view>
+  <view bindtap="toAddressPage" wx:if="{{!defaultAddress}}" class="no_address_panel">
+    <view class="no_address_panel_left" >
+      <text>还没有收货地址</text>
+      <text>去添加一个</text>
+    </view>
+    <view class="no_address_panel_right">
+      <icon class="iconfont icon-xiangyou1"></icon>
+    </view>
+  </view>
+
+  <view wx:if="{{entry === 'detail'}}" class="item">
+    <view class="item_right">
+      <view class="shop_name">
+        <text>弘毅出版社旗舰店</text>
+      </view>
+      <view class="content_row">
+        <view class="content_row_left">
+          <!-- <image mode="widthFix" src="../../images/bi.png"></image> -->
+          <image mode="aspectFill" src="{{book.cover}}"></image>
+        </view>
+        <view class="content_row_right">
+          <view class="content_row_right_top">
+            <view class="book_name">
+              <text>{{book.name}}</text>
+            </view>
+          </view>
+          <view class="content_row_right_bottom">
+            <view class="price">
+              <text>￥</text>
+              <text>{{book.price}}</text>
+            </view>
+            <view class="num_show_2">
+              <icon class="iconfont icon-chenghao">{{book.num}}</icon>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="num_row">
+        <text>数量</text>
+        <view class="num_pancel">
+          <icon bindtap="subtractEvent" data-id="{{item._id}}" data-num="{{item.num}}" class="{{item.num === 1? 'disabled': ''}} iconfont icon-jianhao"></icon>
+          <text data-id="{{item._id}}" data-num="{{item.num}}"  class="num_show">{{book.num}}</text>
+          <icon data-id="{{item._id}}" data-num="{{item.num}}" bindtap="addEvent" class="iconfont icon-jiahao1"></icon>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 配送 -->
+  <view class="way_panel">
+    <text>配送</text>
+    <view class="way_panel_right">
+      <view class="way_panel_right_left">
+        <view>京东快递 免运费</view>
+        <view>下单后两到三天内发货</view>
+      </view>
+      <view class="way_panel_right_right">
+        <icon class="iconfont icon-xiangyou1"></icon>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提交按钮和价格 -->
+  <view class="pay_bottom_row">
+    <view class="need_to_pay">
+      <text>￥</text>
+      <text>{{totalPrice}}</text>
+    </view>
+    <view class="submit_order" bindtap="submitOrder">
+      <text>提交订单</text>
+    </view>
+  </view>
+</view>

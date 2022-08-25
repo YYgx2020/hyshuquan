@@ -130,8 +130,8 @@ Page({
         })
         console.log('数据获取成功：', res.data[0]);
         // this.bookInfo = res.data[0];
-        console.log('截取', res.data[0].comments.splice(0, 2));
-        let comments = res.data[0].comments.splice(0, 2);
+        // console.log('截取', res.data[0].comments.splice(0, 2));
+        let comments = JSON.parse(JSON.stringify(res.data[0].comments)).splice(0, 2);
         comments = comments.map(item => {
           let star = item.star
           let arr = [];
@@ -215,7 +215,7 @@ Page({
           userInfo: app.globalData.userInfo
         })
         // 获取用户的购物车列表信息
-        this.getUserCarList();
+        // this.getUserCarList();
       }
     } catch (error) {
       console.log(error);
@@ -333,6 +333,22 @@ Page({
    }
   },
 
+  // 跳转到确认订单页面
+  async toPayPage() {
+    if (!app.globalData.userInfo) {
+      await this.login()
+      let {_id,} = this.data.bookInfo;
+      wx.navigateTo({
+        url: `/pages/payment/payment?_id=${_id}&entry=${'detail'}`,
+      })
+    } else {
+      let {_id,} = this.data.bookInfo;
+      wx.navigateTo({
+        url: `/pages/payment/payment?_id=${_id}&entry=${'detail'}`,
+      })
+    }
+  },
+
   // 展开评论
   openText(e) {
     // let {current} = this.data;
@@ -355,9 +371,10 @@ Page({
     let {
       bookInfo
     } = this.data;
-    let commentsList = bookInfo.comments.splice(2, bookInfo.comments.length - 1)
+    let commentsList = JSON.parse(JSON.stringify(bookInfo.comments))
+    commentsList = commentsList.splice(2, bookInfo.comments.length - 1)
     wx.setStorageSync('commentsList', commentsList)
-    // console.log('commentsList: ', commentsList);
+    console.log('commentsList: ', commentsList);
     wx.navigateTo({
       url: '/pages/comments/comments',
     })

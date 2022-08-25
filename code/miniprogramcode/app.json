@@ -14,7 +14,9 @@
     "pages/newAddress/newAddress",
     "pages/citySelector/switchcity/switchcity",
     "pages/charge/charge",
-    "pages/deal/deal"
+    "pages/deal/deal",
+    "pages/payment/payment",
+    "pages/confirmPay/confirmPay"
   ],
   "permission": {
     "scope.userLocation": {
