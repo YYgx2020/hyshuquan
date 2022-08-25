@@ -4,11 +4,11 @@
     <view wx:if="{{address.length === 0}}" class="no_address">
       <text>暂无收货地址</text>
     </view>
-    <view class="address_item" wx:for="{{address}}" wx:key="index">
+    <view bindtap="chooseAddress" data-index="{{index}}" class="address_item" wx:for="{{address}}" wx:key="index">
       <view class="row">
         <view class="row_1">
           <text wx:if="{{index === 0}}" class="default">默认</text>
-          <text>{{item.area}}</text>
+          <text>{{item.region[0]}}{{item.region[1]}}{{item.region[2]}}</text>
         </view>
         <view class="row_2">
           <text>{{item.detail}}</text>

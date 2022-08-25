@@ -22,7 +22,7 @@
           <view class="shop_name">
             <text>{{item.bookShop}}</text>
           </view>
-          <view class="content_row">
+          <view class="content_row" data-bookID="{{item.bookID}}" bindtap="toBookDetailPage">
             <view class="content_row_left">
               <!-- <image mode="widthFix" src="../../images/bi.png"></image> -->
               <image mode="aspectFill" src="{{item.bookCover}}"></image>

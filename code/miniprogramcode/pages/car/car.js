@@ -166,6 +166,15 @@ Page({
     })
   },
 
+  // 点击跳转到购物车页面
+  toBookDetailPage(e) {
+    console.log(e);
+    let id = e.currentTarget.dataset.bookid;
+    wx.navigateTo({
+      url: `/pages/bookDetail/bookDetail?_id=${id}`,
+    })
+  },
+
   // 单选事件
   checkSingle(e) {
     console.log(e);

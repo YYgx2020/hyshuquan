@@ -14,15 +14,40 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    let {entry} = options;
     console.log(app.globalData.userInfo);
     let {address} = JSON.parse(JSON.stringify(app.globalData.userInfo))
+    console.log(app.globalData.userInfo);
     address = address.map(item => {
       item.phone = item.phone.substring(0, 3) + '****' + item.phone.substring(7, 11)
       return item
     })
     this.setData({
       address,
+      entry,
     })
+  },
+
+  // 选择收货地址
+  chooseAddress(e) {
+    console.log(e);
+    let {entry} = this.data;
+    console.log('112');
+    
+    let {address} = JSON.parse(JSON.stringify(app.globalData.userInfo))
+    let {index} = e.currentTarget.dataset
+    if (entry) {
+      console.log(address[index]);
+      console.log(index);
+      wx.setStorageSync('defaultAddress', address[index])
+      wx.setStorageSync('curAddressIndex', index)
+      // 返回上一个页面
+      wx.navigateBack({
+        delta: 1,
+      })
+    } else {
+      return
+    }
   },
 
   editAddress(e) {

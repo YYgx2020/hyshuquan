@@ -14,7 +14,12 @@
     </view>
     <view class="form_item">
       <text>所在地区</text>
-      <text bindtap="chooseArea" style="color: #888a88;">{{formData.area? formData.area: '省市区县、乡镇等'}}</text>
+      <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+        <view class="picker">
+      {{formData.region[0]}}{{formData.region[1]}}{{formData.region[2]}}
+    </view>
+      </picker>
+      <!-- <text bindtap="chooseArea" style="color: #888a88;">{{formData.area? formData.area: '省市区县、乡镇等'}}</text> -->
       <!-- <input type="text" placeholder=""/> -->
       <!-- <view class="location">
         <icon class="iconfont icon-31dingwei"></icon>
@@ -40,6 +45,10 @@
     <view class="right">
       <switch checked="{{checked}}" color="#00baad" bindchange="switchEvent"></switch>
     </view>
+  </view>
+  <view class="wechat_address">
+    <text>使用微信中的收货地址</text>
+    <switch checked="{{wechactChecked}}" color="#00baad" bindchange="wechactSwitchEvent"></switch>
   </view>
   <view class="add_address">
     <button bindtap="addressEvent">保存</button>

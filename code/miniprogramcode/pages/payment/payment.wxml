@@ -5,15 +5,15 @@
  -->
 <view class="payment_container">
   <!-- 顶部展示用户的收货地址 -->
-  <view wx:if="{{defaultAddress}}" class="address_panel">
+  <view bindtap="toAddressPage" data-entry="payment" wx:if="{{defaultAddress}}" class="address_panel">
     <view class="address_panel_left">
       <view class="name_phone_row">
         <text>{{defaultAddress.consignee}}</text>
         <text>{{defaultAddress.phone}}</text>
       </view>
       <view class="area">
-        <text class="default">默认</text>
-        <text>{{defaultAddress.area}}</text>
+        <text class="default" wx:if="{{index === 0}}">默认</text>
+        <text>{{defaultAddress.region[0]}}{{defaultAddress.region[1]}}{{defaultAddress.region[2]}}</text>
       </view>
       <view class="detail">
         <text>{{defaultAddress.detail}}</text>

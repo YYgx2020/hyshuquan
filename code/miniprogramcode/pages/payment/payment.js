@@ -8,6 +8,7 @@ Page({
    */
   data: {
     defaultAddress: null,
+    index: 0,
   },
 
   /**
@@ -123,11 +124,19 @@ Page({
     })
   },
 
+  // 跳转到添加收货地址页面（用户信息中没有保存收货地址时）
   toAddressPage(e) {
     console.log(e);
-    wx.navigateTo({
-      url: '/pages/address/address',
-    })
+    let {entry} = e.currentTarget.dataset
+    if (entry) {
+      wx.navigateTo({
+        url: '/pages/address/address?entry=' + entry,
+      })
+    } else {
+      wx.navigateTo({
+        url: '/pages/address/address',
+      })
+    }
   },
 
   // 生成订单
@@ -220,6 +229,21 @@ Page({
     } = app.globalData
     let defaultAddress = null;
     console.log(userInfo);
+
+    //  先看存储中有没有保存用户选择的收货地址，
+    // 如果有，则从存储中拿，如果没有则从用户信息中拿第一个默认的地址
+
+    defaultAddress = wx.getStorageSync('defaultAddress')
+    if (defaultAddress) {
+      let index = wx.getStorageSync('curAddressIndex')
+      this.setData({
+        userInfo,
+        defaultAddress,
+        index: parseInt(index),
+      })
+      return
+    }
+
     if (userInfo.address.length !== 0) {
       defaultAddress = userInfo.address[0]
       defaultAddress.phone = defaultAddress.phone.substring(0, 3) + '****' + defaultAddress.phone.substring(7, 11)
@@ -227,6 +251,7 @@ Page({
     this.setData({
       userInfo,
       defaultAddress,
+      index: 0,
     })
   },
 

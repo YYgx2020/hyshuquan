@@ -11,10 +11,13 @@ Page({
     formData: {
       consignee: '',
       phone: '',
-      area: '',
+      region: ['省', '市区', '县乡镇等'],
       detail: '',
     },
     hasEdit: false,
+    wechactChecked: false,
+    region: ['省', '市区', '县乡镇等'],
+    customItem: '全部',
   },
 
   /**
@@ -36,7 +39,7 @@ Page({
     let formData = {
       consignee: '',
       phone: '',
-      area: '',
+      region: ['省', '市区', '县乡镇等'],
       detail: '',
     };
     if (!isNaN(index)) {
@@ -128,15 +131,28 @@ Page({
     }, 100)
   },
 
-  chooseArea() {
+  // 地区选择器
+  bindRegionChange(e) {
+    console.log(e);
+    let {formData} = this.data;
+    if (e.detail.value[0] === e.detail.value[1] && e.detail.value[0] !== '全部') {
+      e.detail.value[0] = '';
+    }
+    formData.region = e.detail.value;
     this.setData({
-      hasEdit: true,
+      formData,
     })
-    wx.navigateTo({
-      url: '/pages/citySelector/switchcity/switchcity',
-    })
-
   },
+
+  // chooseArea() {
+  //   this.setData({
+  //     hasEdit: true,
+  //   })
+  //   wx.navigateTo({
+  //     url: '/pages/citySelector/switchcity/switchcity',
+  //   })
+
+  // },
 
   textareaBlur() {
     let {
@@ -164,7 +180,7 @@ Page({
     })
   },
 
-  // 
+  // 删除地址
   deteleAddress() {
     wx.showModal({
       title: '提示',
@@ -184,7 +200,9 @@ Page({
           //   collections,
           //   openid,
           // } = app.globalData.userInfo
-          let {userInfo} = app.globalData;
+          let {
+            userInfo
+          } = app.globalData;
           userInfo.address = userInfo.address.filter((item, ind) => {
             return ind !== index
           })
@@ -225,6 +243,58 @@ Page({
 
   },
 
+  // 使用微信中的收货地址
+  wechactSwitchEvent() {
+    let {formData,detailsTouch} = this.data;
+    let {
+      wechactChecked
+    } = this.data;
+    if (wechactChecked) {
+      // 取消微信的收货地址选择
+      formData.region = ['省', '市区', '县乡镇等'];
+      formData.detail = '';
+      // edit = true;
+      detailsTouch = false;
+      this.setData({
+        detailsTouch,
+        formData,
+        wechactChecked: false,
+      })
+    } else {
+      wx.chooseAddress({
+        success: (res) => {
+          console.log(res.userName)
+          console.log(res.postalCode)
+          console.log(res.provinceName)
+          console.log(res.cityName)
+          console.log(res.countyName)
+          console.log(res.detailInfo)
+          console.log(res.nationalCode)
+          console.log(res.telNumber)
+          formData.phone = res.telNumber;
+          formData.consignee = res.userName;
+          formData.region = [res.provinceName, res.cityName, res.countyName]
+          formData.detail = res.detailInfo;
+          detailsTouch = true;
+          this.setData({
+            detailsTouch,
+            wechactChecked: true,
+            hasEdit: true,
+            formData,
+          })
+        },
+        fail: err => {
+          console.log(err);
+          this.setData({
+            wechactChecked: false,
+          })
+        }
+      })
+
+    }
+
+  },
+
   // 保存收货地址
   addressEvent(back) {
     let {
@@ -234,14 +304,19 @@ Page({
       edit,
       checked
     } = this.data;
+    if (formData.region[0] == '省') {
+      wx.showToast({
+        title: '请填写完整的收货信息',
+        icon: 'none',
+        mask: true
+      })
+      return
+    }
     for (let k in formData) {
       if (!formData[k]) {
-        // wx.showModal({
-        //   title: "提示",
-        //   content: '请填写完所有信息后再保存',
-        // })
         wx.showToast({
           title: '请填写完整的收货信息',
+          icon: 'none',
           mask: true
         })
         return
@@ -255,7 +330,9 @@ Page({
     //   collections,
     //   openid,
     // } = app.globalData.userInfo
-    let {userInfo} = app.globalData
+    let {
+      userInfo
+    } = app.globalData
     console.log(userInfo);
     // let collections = app.globalData.userInfo
     if (!edit) {

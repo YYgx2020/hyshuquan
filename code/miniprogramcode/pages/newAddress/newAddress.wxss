@@ -110,6 +110,25 @@
   align-items: center;
 }
 
+.picker {
+  color: #888a88;
+}
+
+.wechat_address {
+  position: relative;
+  width: 100%;
+  line-height: 120rpx;
+  margin-top: 30rpx;
+  padding: 0rpx 30rpx;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.wechat_address switch {
+  margin-right: 60rpx;
+}
+
 .add_address {
   position: absolute;
   bottom: 0rpx;
