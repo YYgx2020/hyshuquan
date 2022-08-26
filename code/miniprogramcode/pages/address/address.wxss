@@ -48,7 +48,9 @@
 }
 
 .row_3 text:first-child {
-  margin-right: 60rpx;
+  display: inline-block;
+  width: 120rpx;
+  /* margin-right: 60rpx; */
 }
 
 .add_address {

@@ -26,7 +26,8 @@
 }
 
 .name_phone_row text:first-child {
-  padding-right: 40rpx;
+  display: inline-block;
+  width: 180rpx;
 }
 
 .area {

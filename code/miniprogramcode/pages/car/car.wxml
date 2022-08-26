@@ -39,9 +39,9 @@
                   <text>{{item.bookPrice}}</text>
                 </view>
                 <view class="num_pancel">
-                  <icon bindtap="subtractEvent" data-id="{{item._id}}" data-num="{{item.num}}" class="{{item.num === 1? 'disabled': ''}} iconfont icon-jianhao"></icon>
-                  <text data-id="{{item._id}}" data-num="{{item.num}}" bindtap="changeNumEvent" class="num_show">{{item.num}}</text>
-                  <icon data-id="{{item._id}}" data-num="{{item.num}}" bindtap="addEvent" class="iconfont icon-jiahao1"></icon>
+                  <icon catchtap="subtractEvent" data-id="{{item._id}}" data-num="{{item.num}}" class="{{item.num === 1? 'disabled': ''}} iconfont icon-jianhao"></icon>
+                  <text data-id="{{item._id}}" data-num="{{item.num}}" catchtap="changeNumEvent" class="num_show">{{item.num}}</text>
+                  <icon data-id="{{item._id}}" data-num="{{item.num}}" catchtap="addEvent" class="iconfont icon-jiahao1"></icon>
                 </view>
               </view>
             </view>
