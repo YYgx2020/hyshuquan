@@ -60,6 +60,7 @@ Page({
           name: 'updateUserInfo',
           data: userInfo,
         })
+        // 修改全局的数据
         app.globalData.userInfo = userInfo
         console.log('p1: ', p1);
         // 更新订单信息表（订单状态 -> 1）

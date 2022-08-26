@@ -1,6 +1,6 @@
 // pages/newAddress/newAddress.js
 const app = getApp()
-const reg = '/^1[3|4|5|7|8]\d{9}$/'
+const reg = /^[1][3,4,5,7,8,9][0-9]{9}$/
 Page({
 
   /**
@@ -76,7 +76,7 @@ Page({
     let {
       formData
     } = this.data
-    if (e.detail.value.trim() && !(/^1[3|4|5|7|8]\d{9}$/.test(e.detail.value))) {
+    if (e.detail.value.trim() && !(reg.test(e.detail.value))) {
       wx.showModal({
         title: '提示',
         content: '手机号输入错误，请重新填写',

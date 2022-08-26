@@ -164,6 +164,10 @@ Page({
    */
   onShow() {
     console.log('页面显示');
+    let {userInfo} = app.globalData
+    this.setData({
+      userInfo,
+    })
   },
 
   /**

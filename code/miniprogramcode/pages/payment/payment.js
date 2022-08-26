@@ -26,7 +26,7 @@ Page({
     let defaultAddress = null;
     console.log(userInfo);
     if (userInfo.address.length !== 0) {
-      defaultAddress = userInfo.address[0]
+      defaultAddress = JSON.parse(JSON.stringify(userInfo.address[0]))
       defaultAddress.phone = defaultAddress.phone.substring(0, 3) + '****' + defaultAddress.phone.substring(7, 11)
     }
     this.setData({
@@ -152,6 +152,7 @@ Page({
       _id,
       totalPrice
     } = this.data;
+    console.log(userInfo);
     console.log("_id: ", _id);
     if (userInfo.address.length === 0) {
       await wx.showModal({
@@ -236,6 +237,7 @@ Page({
     defaultAddress = wx.getStorageSync('defaultAddress')
     if (defaultAddress) {
       let index = wx.getStorageSync('curAddressIndex')
+      defaultAddress.phone = defaultAddress.phone.substring(0, 3) + '****' + defaultAddress.phone.substring(7, 11)
       this.setData({
         userInfo,
         defaultAddress,
