@@ -62,7 +62,7 @@
         <text>￥{{totalPrice}}</text>
       </view>
       <view class="settle">
-        <button>去结算({{goodNum}})</button>
+        <button bindtap="settleAccountedEvent">去结算({{goodNum}})</button>
       </view>
     </block>
     <block wx:if="{{edit}}">

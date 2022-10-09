@@ -200,6 +200,7 @@ Page({
     }
   },
 
+  // 弹窗输入框修改购买数量
   changeNumEvent(e) {
     console.log(e);
     let {
@@ -246,6 +247,12 @@ Page({
         }
       }
     })
+  },
+  
+  // 结算事件
+  settleAccountedEvent() {
+    // 去结算
+    
   },
 
   // 加号事件

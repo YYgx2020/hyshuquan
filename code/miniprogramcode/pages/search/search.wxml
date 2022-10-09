@@ -1,2 +1,75 @@
 <!--pages/search/search.wxml-->
-<text>pages/search/search.wxml</text>
+<view class="search_page_container">
+  <!-- 搜索框 -->
+  <view class="search_wrapper">
+    <!-- 搜索输入框 -->
+    <!-- bindtap="searchEvent" -->
+    <view class="search_input">
+      <text class="serach_icon iconfont icon-sousuo"></text>
+      <input auto-focus value="{{inputText}}" type="text" placeholder="请输入书名/作者/ISBN" bindinput="getInputText" />
+      <text wx:if="{{inputText}}" class="iconfont icon-quxiao quxiao" bindtap="clearSearch"></text>
+    </view>
+    <!-- 搜索按钮 -->
+    <view class="sourch_button">
+      <text bindtap="searchBtn">搜索</text>
+    </view>
+  </view>
+  <!-- 搜索内容展示 -->
+  <view class="search_result">
+    <view class="empty" wx:if="{{showNone}}">
+      <text>搜不到你想要的书籍</text>
+    </view>
+    <!-- 列表展示：分两列 -->
+    <view class="left">
+      <!-- 左边的：单数 -->
+      <block wx:for="{{searchData.bookAllDataLeft}}" wx:key="id">
+        <view class="book_item_left" bindtap="toBookDetail" data-item="{{item}}">
+          <!-- 图片 -->
+          <!-- {{item}} -->
+          <image mode="widthFix" src="{{item.cover}}"></image>
+          <!-- 书名 -->
+          <view class="book_name">
+            <text>{{item.bookName}}</text>
+          </view>
+          <!-- 价格 -->
+          <view class="price">
+            <text>￥</text>
+            <text>{{item.price}}</text>
+          </view>
+          <view class="sold">
+            <text decode="true">已售&nbsp;&nbsp;</text>
+            <text>{{1000 - item.nums}}</text>
+          </view>
+
+        </view>
+      </block>
+      <!-- 空白 -->
+      <view class="space"></view>
+    </view>
+    <view class="right">
+      <!-- 右边的：双数 -->
+      <block wx:for="{{searchData.bookAllDataRight}}" wx:key="id">
+        <view bindtap="toBookDetail" data-item="{{item}}" class="book_item_right">
+          <!-- 图片 -->
+          <!-- {{item}} -->
+          <image mode="widthFix" src="{{item.cover}}"></image>
+          <!-- 书名 -->
+          <view class="book_name">
+            <text>{{item.bookName}}</text>
+          </view>
+          <!-- 价格 -->
+          <view class="price">
+            <text>￥</text>
+            <text>{{item.price}}</text>
+          </view>
+          <view class="sold">
+            <text decode="true">已售&nbsp;&nbsp;</text>
+            <text>{{1000 - item.nums}}</text>
+          </view>
+        </view>
+      </block>
+      <!-- 空白 -->
+      <view class="space"></view>
+    </view>
+  </view>
+</view>

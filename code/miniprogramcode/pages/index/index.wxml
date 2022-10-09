@@ -5,7 +5,8 @@
     <!-- 搜索输入框 -->
     <view class="search_input" bindtap="searchEvent">
       <text class="serach_icon iconfont icon-sousuo"></text>
-      <input value="{{inputText}}" type="text" placeholder="请输入书名/作者/ISBN" />
+      <input type="text" placeholder="请输入书名/作者/ISBN" />
+      <!-- <text style="color: #818181;">请输入书名/作者/ISBN</text> -->
       <!-- <text wx:if="{{inputText}}" class="iconfont icon-quxiao quxiao" bindtap="clearSearch"></text> -->
     </view>
     <!-- 搜索按钮 -->
