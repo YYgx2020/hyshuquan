@@ -36,7 +36,7 @@ Page({
     
     let {address} = JSON.parse(JSON.stringify(app.globalData.userInfo))
     let {index} = e.currentTarget.dataset
-    if (entry) {
+    if (entry === 'payment') {
       console.log(address[index]);
       console.log(index);
       wx.setStorageSync('defaultAddress', address[index])
@@ -45,7 +45,15 @@ Page({
       wx.navigateBack({
         delta: 1,
       })
-    } else {
+    } else if (entry === 'orderDetail') {
+      // wx.setStorageSync('orderAddress', address[index])
+      app.globalData.changeOrderAddress = true;
+      app.globalData.orderAddress = address[index];
+      wx.navigateBack({
+        delta: 1,
+      })
+    } 
+    else {
       return
     }
   },

@@ -16,7 +16,9 @@
     "pages/charge/charge",
     "pages/deal/deal",
     "pages/payment/payment",
-    "pages/confirmPay/confirmPay"
+    "pages/confirmPay/confirmPay",
+    "pages/orderDetail/orderDetail",
+    "pages/delivery/delivery"
   ],
   "permission": {
     "scope.userLocation": {

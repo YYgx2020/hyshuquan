@@ -82,6 +82,7 @@
   flex-direction: column;
   align-items: center;
   padding: 20rpx 20rpx;
+  font-size: 30rpx;
 }
 
 .fun_list_item icon {
@@ -152,3 +153,22 @@
   background-color: #dee2e6;
 }
 
+.return_goods:not([size='mini']) {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  padding: 20rpx 20rpx;
+  font-weight: 500;
+  background-color: #fff;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  font-size: 30rpx;
+}
+
+.return_goods:not([size='mini']) icon {
+  font-size: 40rpx;
+  font-weight: 500;
+  padding-bottom: 0rpx !important;
+}

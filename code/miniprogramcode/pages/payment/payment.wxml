@@ -24,7 +24,7 @@
     </view>
   </view>
   <view bindtap="toAddressPage" wx:if="{{!defaultAddress}}" class="no_address_panel">
-    <view class="no_address_panel_left" >
+    <view class="no_address_panel_left">
       <text>还没有收货地址</text>
       <text>去添加一个</text>
     </view>
@@ -33,6 +33,7 @@
     </view>
   </view>
 
+  <!-- 从图书详情过来的页面样式 -->
   <view wx:if="{{entry === 'detail'}}" class="item">
     <view class="item_right">
       <view class="shop_name">
@@ -64,9 +65,27 @@
         <text>数量</text>
         <view class="num_pancel">
           <icon bindtap="subtractEvent" data-id="{{item._id}}" data-num="{{item.num}}" class="{{item.num === 1? 'disabled': ''}} iconfont icon-jianhao"></icon>
-          <text data-id="{{item._id}}" data-num="{{item.num}}"  class="num_show">{{book.num}}</text>
+          <text data-id="{{item._id}}" data-num="{{item.num}}" class="num_show">{{book.num}}</text>
           <icon data-id="{{item._id}}" data-num="{{item.num}}" bindtap="addEvent" class="iconfont icon-jiahao1"></icon>
         </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 从购物车页面过来的页面样式 -->
+  <view wx:if="{{entry === 'car'}}" class="item">
+    <view class="item_right">
+      <view class="shop_name">
+        <text>弘毅出版社旗舰店</text>
+      </view>
+      <view class="content_row_car">
+        <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+          <!-- 图片列表 -->
+          <view class="cover_list" wx:for="{{selectedGoods}}" wx:key="{{item._id}}">
+            <image src="{{item.bookCover}}"></image>
+            <text>x{{item.num}}</text>
+          </view>
+        </scroll-view>
       </view>
     </view>
   </view>

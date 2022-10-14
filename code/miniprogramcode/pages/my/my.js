@@ -1,5 +1,7 @@
 // pages/my/my.js
-import {getUserProfile} from '../../utils/auth';
+import {
+  getUserProfile
+} from '../../utils/auth';
 // import {test, myFun} from '../../utils/test';
 const app = new getApp()
 
@@ -10,8 +12,7 @@ Page({
    */
   data: {
     isLogin: false,
-    funList: [
-      {
+    funList: [{
         id: 0,
         icon: 'icon-daifukuan',
         text: '待付款',
@@ -43,6 +44,7 @@ Page({
       },
     ],
     userInfo: app.globalData.userInfo,
+    openid: '',
   },
 
   /**
@@ -55,6 +57,7 @@ Page({
     console.log(app.globalData.userInfo);
     this.setData({
       userInfo: app.globalData.userInfo,
+      openid: app.globalData.openid,
     })
   },
 
@@ -64,8 +67,19 @@ Page({
       let p = await getUserProfile()
       console.log(p);
       if (p) {
+        let {
+          userInfo,
+          adminList
+        } = app.globalData
+        adminList.forEach(item => {
+          if (item.openid === userInfo.openid) {
+            this.setData({
+              showAdmin: true,
+            })
+          }
+        })
         this.setData({
-          userInfo: app.globalData.userInfo
+          userInfo,
         })
       }
     } catch (error) {
@@ -77,22 +91,44 @@ Page({
 
   // 跳转到所有订单页面
   toAllOrderPage(e) {
-    let {userInfo} = this.data
-    let {view} = e.currentTarget.dataset;
-    if (userInfo) {      
+    let {
+      userInfo
+    } = this.data
+    let {
+      view
+    } = e.currentTarget.dataset;
+    if (userInfo) {
       wx.navigateTo({
         url: '/pages/order/order?view=' + view,
       })
     } else {
       this.login()
     }
-    
-    
+
+
   },
 
+  // 管理员跳转到订单发货页面
+  deliveryEvent() {
+    console.log('跳转到订单发货页面');
+    let {
+      userInfo
+    } = this.data
+    if (userInfo) {
+      wx.navigateTo({
+        url: '/pages/delivery/delivery',
+      })
+    } else {
+      this.login()
+    }
+  },
+
+  // 跳转到购物车页面
   toCarPage() {
-    let {userInfo} = this.data
-    if (userInfo) {      
+    let {
+      userInfo
+    } = this.data
+    if (userInfo) {
       wx.switchTab({
         url: '/pages/car/car',
       })
@@ -103,8 +139,10 @@ Page({
 
   // 跳转到收货地址页面
   toAddressPage() {
-    let {userInfo} = this.data
-    if (userInfo) {      
+    let {
+      userInfo
+    } = this.data
+    if (userInfo) {
       wx.navigateTo({
         url: '/pages/address/address',
       })
@@ -115,8 +153,10 @@ Page({
 
   // 跳转到收藏列表页面
   toCollectionPage() {
-    let {userInfo} = this.data
-    if (userInfo) {      
+    let {
+      userInfo
+    } = this.data
+    if (userInfo) {
       wx.navigateTo({
         url: '/pages/collection/colletion',
       })
@@ -126,8 +166,10 @@ Page({
   },
 
   toChargePage() {
-    let {userInfo} = this.data
-    if (userInfo) {      
+    let {
+      userInfo
+    } = this.data
+    if (userInfo) {
       wx.navigateTo({
         url: '/pages/charge/charge',
       })
@@ -164,7 +206,17 @@ Page({
    */
   onShow() {
     console.log('页面显示');
-    let {userInfo} = app.globalData
+    let {
+      userInfo,
+      adminList
+    } = app.globalData
+    // adminList.forEach(item => {
+    //   if (item.openid === userInfo.openid) {
+    //     this.setData({
+    //       showAdmin: true,
+    //     })
+    //   }
+    // })
     this.setData({
       userInfo,
     })

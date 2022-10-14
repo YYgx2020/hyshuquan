@@ -1,8 +1,8 @@
 <!--pages/charge/charge.wxml-->
 <view class="charge_container">
-  <view class="record_row" bindtap="toDealPage">
+  <!-- <view class="record_row" bindtap="toDealPage">
     <text>购书币明细</text>
-  </view>
+  </view> -->
   <view class="icon_panel">
     <image src="../../images/bi.png"></image>
   </view>

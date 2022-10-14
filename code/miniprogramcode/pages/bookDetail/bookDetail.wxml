@@ -135,9 +135,10 @@
       <icon class="iconfont icon-shouye-shouye"></icon>
       <text>回到首页</text>
     </view>
+
     <view class="btn_item" bindtap="collectionBook">
-      <icon style="font-size: 38rpx;" class="iconfont icon-shoucang"></icon>
-      <text>收藏</text>
+      <!-- <icon style="font-size: 38rpx;" class="iconfont icon-shoucang"></icon>
+      <text>收藏</text> -->
     </view>
     <view class="buy_btn">
       <view class="add_car" bindtap="addToCarEvent">

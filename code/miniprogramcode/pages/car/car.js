@@ -251,8 +251,23 @@ Page({
   
   // 结算事件
   settleAccountedEvent() {
-    // 去结算
-    
+    /* 
+      跳转到订单支付页面
+      传递选择的商品
+    */
+    let {carData, totalPrice} = this.data;
+    // 先筛选出选中的商品
+    let selectedGoods = []
+    carData.forEach(item => {
+      if (item.check) {
+        selectedGoods.push(item)
+      }
+    })
+    console.log('selectedGoods:', selectedGoods);
+    wx.setStorageSync('selectedGoods', selectedGoods);
+    wx.navigateTo({
+      url: `/pages/payment/payment?entry=${'car'}&totalPrice=${totalPrice}`
+    })
   },
 
   // 加号事件

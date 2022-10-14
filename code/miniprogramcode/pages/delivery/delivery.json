@@ -1,0 +1,7 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "待发货订单",
+  "navigationBarBackgroundColor": "#f5f5f5",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#f5f5f5"
+}

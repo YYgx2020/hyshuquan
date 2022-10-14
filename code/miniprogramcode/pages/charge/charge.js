@@ -72,6 +72,7 @@ Page({
           // 更新用户的金额信息
         }
         if (res.cancel) {
+          // console.log('取消输入');
           return
         }
       }
@@ -87,11 +88,11 @@ Page({
       editable: true,
       placeholderText: '请输入金额',
       success: res => {
-        if (!res.content.trim()) {
-          return
-        }
         if (res.confirm) {
           console.log(res);
+          if (!res.content.trim()) {
+            return
+          }
           if (reg2.test(res.content)) {
             let num = parseFloat(res.content)
             console.log('num: ', num);

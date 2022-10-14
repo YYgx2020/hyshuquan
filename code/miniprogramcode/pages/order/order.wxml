@@ -1,10 +1,11 @@
 <!--pages/order/order.wxml-->
 <view class="order_container">
-  <view class="search_wrapper" bindtap="searchEvent">
+  <view class="search_wrapper">
     <!-- 搜索输入框 -->
     <view class="search_input">
       <text class="serach_icon iconfont icon-sousuo"></text>
-      <input value="{{inputText}}" type="text" placeholder="搜索订单" />
+      <input value="{{inputText}}" type="text" placeholder="搜索订单" bindinput="searchEvent" />
+      <text wx:if="{{inputText}}" class="iconfont icon-quxiao quxiao" bindtap="clearSearch"></text>
       <!-- <text wx:if="{{inputText}}" class="iconfont icon-quxiao quxiao" bindtap="clearSearch"></text> -->
     </view>
     <!-- 搜索按钮 -->
@@ -13,20 +14,630 @@
     </view>
   </view>
   <!-- 导航栏 -->
-  <scroll-view scroll-x="true" enable-flex scroll-into-view="{{view}}" scroll-with-animation="true" class="nav_scroll" enhanced="true" show-scrollbar="false">
+  <scroll-view wx:if="{{!searching}}" scroll-x="true" enable-flex scroll-into-view="{{view}}" scroll-with-animation="true" class="nav_scroll" enhanced="true" show-scrollbar="false">
     <view class="nav_item {{view === item.id? 'active': ''}}" wx:for="{{navList}}" wx:key="index" id="{{item.id}}" bindtap="changeNav" data-index="{{index}}">
       <text>{{item.text}}</text>
     </view>
   </scroll-view>
   <!-- 订单列表 -->
-  <swiper class="swiper_container" bindchange="swiperChange" current="{{current}}" easing-function="default">
-    <swiper-item wx:for="{{orderData}}" wx:key="index">
-      <scroll-view class="order_scroll">
-        <view class="order_item">
-          
+  <swiper wx:if="{{!searching}}" class="swiper_container" bindchange="swiperChange" current="{{current}}" easing-function="default">
+    <!-- 全部 -->
+    <swiper-item>
+      <scroll-view class="order_scroll" scroll-y="true">
+        <block wx:for="{{orderDataAll}}" wx:key="index">
+          <!-- 待付款 -->
+          <view class="order_item" wx:if="{{item.status === 0}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+            <view class="shop_name">
+              <text>弘毅出版社旗舰店</text>
+              <text>等待付款</text>
+            </view>
+            <!-- 订单详情 -->
+            <view class="look_more">
+              <view class="look_more_left">
+                <text>订单提交成功</text>
+                <text>{{item.createTime}}</text>
+              </view>
+              <view class="look_more_right">
+                <icon class="iconfont icon-xiangyou1"></icon>
+              </view>
+            </view>
+            <!-- 图书信息 -->
+            <!-- 直接从图书的详情页面购买的 -->
+            <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+              <view class="book_info_cover">
+                <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+              </view>
+              <view class="book_info_name">
+                <text>{{item.goodsInfo[0].name}}</text>
+                <text>x{{item.goodsInfo[0].num}}</text>
+              </view>
+            </view>
+            <!-- 从购物车页面挑选了多个商品购买的 -->
+            <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+              <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+                <!-- 图片列表 -->
+                <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+                  <image src="{{items.cover}}"></image>
+                  <text>x{{items.num}}</text>
+                </view>
+              </scroll-view>
+            </view>
+            <!-- 付款信息 -->
+            <view class="pay_info">
+              <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;需付款：</text>
+              <text>￥{{item.totalPrice}}</text>
+            </view>
+            <!-- 操作 -->
+            <view class="control">
+              <text class="cancel_btn" catchtap="cancelOrderEvent" data-index="{{index}}">取消订单</text>
+              <text class="pay_btn" catchtap="payEvent" data-index="{{index}}">立即支付</text>
+            </view>
+          </view>
+          <!-- 已付款待发货 -->
+          <view class="order_item" wx:if="{{item.status === 1}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+            <view class="shop_name">
+              <text>弘毅出版社旗舰店</text>
+              <text style="color: #8c8c8c;">待商家发货</text>
+            </view>
+            <!-- 订单详情 -->
+            <view class="look_more">
+              <view class="look_more_left">
+                <text>订单提交成功</text>
+                <text>{{item.createTime}}</text>
+              </view>
+              <view class="look_more_right">
+                <icon class="iconfont icon-xiangyou1"></icon>
+              </view>
+            </view>
+            <!-- 图书信息 -->
+            <!-- 直接从图书的详情页面购买的 -->
+            <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+              <view class="book_info_cover">
+                <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+              </view>
+              <view class="book_info_name">
+                <text>{{item.goodsInfo[0].name}}</text>
+                <text>x{{item.goodsInfo[0].num}}</text>
+              </view>
+            </view>
+            <!-- 从购物车页面挑选了多个商品购买的 -->
+            <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+              <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+                <!-- 图片列表 -->
+                <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+                  <image src="{{items.cover}}"></image>
+                  <text>x{{items.num}}</text>
+                </view>
+              </scroll-view>
+            </view>
+            <!-- 付款信息 -->
+            <view class="pay_info">
+              <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;实付款：</text>
+              <text>￥{{item.totalPrice}}</text>
+            </view>
+            <!-- 操作 -->
+            <view class="control">
+              <button class="return_goods" catchtap="func2" open-type="contact">退货/退款</button>
+            </view>
+          </view>
+          <!-- 已取消 -->
+          <view class="order_item" wx:if="{{item.status === -1}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+            <view class="shop_name">
+              <text>弘毅出版社旗舰店</text>
+              <text style="color: #8c8c8c;">已取消</text>
+            </view>
+            <!-- 订单详情 -->
+            <view class="look_more">
+              <view class="look_more_left">
+                <text>订单提交成功</text>
+                <text>{{item.createTime}}</text>
+              </view>
+              <view class="look_more_right">
+                <icon class="iconfont icon-xiangyou1"></icon>
+              </view>
+            </view>
+            <!-- 图书信息 -->
+            <!-- 直接从图书的详情页面购买的 -->
+            <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+              <view class="book_info_cover">
+                <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+              </view>
+              <view class="book_info_name">
+                <text>{{item.goodsInfo[0].name}}</text>
+                <text>x{{item.goodsInfo[0].num}}</text>
+              </view>
+            </view>
+            <!-- 从购物车页面挑选了多个商品购买的 -->
+            <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+              <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+                <!-- 图片列表 -->
+                <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+                  <image src="{{items.cover}}"></image>
+                  <text>x{{items.num}}</text>
+                </view>
+              </scroll-view>
+            </view>
+            <!-- 付款信息 -->
+            <view class="pay_info">
+              <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;需付款：</text>
+              <text>￥{{item.totalPrice}}</text>
+            </view>
+            <!-- 操作 -->
+            <view class="control">
+              <text class="cancel_btn" data-index="{{index}}" catchtap="deteleEvent">删除订单</text>
+            </view>
+          </view>
+          <!-- 待收货 -->
+          <view class="order_item" wx:if="{{item.status === 2}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+            <view class="shop_name">
+              <text>弘毅出版社旗舰店</text>
+              <text style="color: #8c8c8c;">待确认收货</text>
+            </view>
+            <!-- 订单详情 -->
+            <view class="look_more">
+              <view class="look_more_left">
+                <text>订单提交成功</text>
+                <text>{{item.createTime}}</text>
+              </view>
+              <view class="look_more_right">
+                <icon class="iconfont icon-xiangyou1"></icon>
+              </view>
+            </view>
+            <!-- 图书信息 -->
+            <!-- 直接从图书的详情页面购买的 -->
+            <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+              <view class="book_info_cover">
+                <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+              </view>
+              <view class="book_info_name">
+                <text>{{item.goodsInfo[0].name}}</text>
+                <text>x{{item.goodsInfo[0].num}}</text>
+              </view>
+            </view>
+            <!-- 从购物车页面挑选了多个商品购买的 -->
+            <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+              <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+                <!-- 图片列表 -->
+                <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+                  <image src="{{items.cover}}"></image>
+                  <text>x{{items.num}}</text>
+                </view>
+              </scroll-view>
+            </view>
+            <!-- 付款信息 -->
+            <view class="pay_info">
+              <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;实付款：</text>
+              <text>￥{{item.totalPrice}}</text>
+            </view>
+            <!-- 操作 -->
+            <view class="control">
+              <button class="return_goods" catchtap="func2" open-type="contact">退货/退款</button>
+              <text class="confirm_delivery_btn" catchtap="confirmEvent" data-index="{{index}}">确认收货</text>
+            </view>
+          </view>
+          <!-- 已完成 -->
+          <view class="order_item" wx:if="{{item.status === 3}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+            <view class="shop_name">
+              <text>弘毅出版社旗舰店</text>
+              <text style="color: #8c8c8c;">已完成</text>
+            </view>
+            <!-- 订单详情 -->
+            <view class="look_more">
+              <view class="look_more_left">
+                <text>订单提交成功</text>
+                <text>{{item.createTime}}</text>
+              </view>
+              <view class="look_more_right">
+                <icon class="iconfont icon-xiangyou1"></icon>
+              </view>
+            </view>
+            <!-- 图书信息 -->
+            <!-- 直接从图书的详情页面购买的 -->
+            <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+              <view class="book_info_cover">
+                <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+              </view>
+              <view class="book_info_name">
+                <text>{{item.goodsInfo[0].name}}</text>
+                <text>x{{item.goodsInfo[0].num}}</text>
+              </view>
+            </view>
+            <!-- 从购物车页面挑选了多个商品购买的 -->
+            <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+              <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+                <!-- 图片列表 -->
+                <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+                  <image src="{{items.cover}}"></image>
+                  <text>x{{items.num}}</text>
+                </view>
+              </scroll-view>
+            </view>
+            <!-- 付款信息 -->
+            <view class="pay_info">
+              <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;实付款：</text>
+              <text>￥{{item.totalPrice}}</text>
+            </view>
+            <!-- 操作 -->
+            <view class="control">
+              <text class="cancel_btn" data-index="{{index}}" catchtap="deteleEvent">删除订单</text>
+            </view>
+          </view>
+        </block>
 
-        </view>
+        <view class="space"></view>
+      </scroll-view>
+    </swiper-item>
+    <!-- 待付款 -->
+    <swiper-item>
+      <scroll-view class="order_scroll" scroll-y="true">
+        <block wx:for="{{orderDataAll}}" wx:key="index">
+          <!-- 待付款 -->
+          <view class="order_item" wx:if="{{item.status === 0}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+            <view class="shop_name">
+              <text>弘毅出版社旗舰店</text>
+              <text>等待付款</text>
+            </view>
+            <!-- 订单详情 -->
+            <view class="look_more">
+              <view class="look_more_left">
+                <text>订单提交成功</text>
+                <text>{{item.createTime}}</text>
+              </view>
+              <view class="look_more_right">
+                <icon class="iconfont icon-xiangyou1"></icon>
+              </view>
+            </view>
+            <!-- 图书信息 -->
+            <!-- 直接从图书的详情页面购买的 -->
+            <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+              <view class="book_info_cover">
+                <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+              </view>
+              <view class="book_info_name">
+                <text>{{item.goodsInfo[0].name}}</text>
+                <text>x{{item.goodsInfo[0].num}}</text>
+              </view>
+            </view>
+            <!-- 从购物车页面挑选了多个商品购买的 -->
+            <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+              <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+                <!-- 图片列表 -->
+                <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+                  <image src="{{items.cover}}"></image>
+                  <text>x{{items.num}}</text>
+                </view>
+              </scroll-view>
+            </view>
+            <!-- 付款信息 -->
+            <view class="pay_info">
+              <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;需付款：</text>
+              <text>￥{{item.totalPrice}}</text>
+            </view>
+            <!-- 操作 -->
+            <view class="control">
+              <text class="cancel_btn" catchtap="cancelOrderEvent" data-index="{{index}}">取消订单</text>
+              <text class="pay_btn" catchtap="payEvent" data-index="{{index}}">立即支付</text>
+            </view>
+          </view>
+        </block>
+
+        <view class="space"></view>
+      </scroll-view>
+    </swiper-item>
+    <!-- 待发货 -->
+    <swiper-item>
+      <scroll-view class="order_scroll" scroll-y="true">
+        <block wx:for="{{orderDataAll}}" wx:key="index">
+          <!-- 已付款待发货 -->
+          <view class="order_item" wx:if="{{item.status === 1}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+            <view class="shop_name">
+              <text>弘毅出版社旗舰店</text>
+              <text style="color: #8c8c8c;">待商家发货</text>
+            </view>
+            <!-- 订单详情 -->
+            <view class="look_more">
+              <view class="look_more_left">
+                <text>订单提交成功</text>
+                <text>{{item.createTime}}</text>
+              </view>
+              <view class="look_more_right">
+                <icon class="iconfont icon-xiangyou1"></icon>
+              </view>
+            </view>
+            <!-- 图书信息 -->
+            <!-- 直接从图书的详情页面购买的 -->
+            <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+              <view class="book_info_cover">
+                <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+              </view>
+              <view class="book_info_name">
+                <text>{{item.goodsInfo[0].name}}</text>
+                <text>x{{item.goodsInfo[0].num}}</text>
+              </view>
+            </view>
+            <!-- 从购物车页面挑选了多个商品购买的 -->
+            <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+              <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+                <!-- 图片列表 -->
+                <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+                  <image src="{{items.cover}}"></image>
+                  <text>x{{items.num}}</text>
+                </view>
+              </scroll-view>
+            </view>
+            <!-- 付款信息 -->
+            <view class="pay_info">
+              <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;实付款：</text>
+              <text>￥{{item.totalPrice}}</text>
+            </view>
+            <!-- 操作 -->
+            <view class="control">
+              <button class="return_goods" catchtap="func2" open-type="contact">退货/退款</button>
+            </view>
+          </view>
+        </block>
+
+        <view class="space"></view>
+      </scroll-view>
+    </swiper-item>
+    <!-- 待收货 -->
+    <swiper-item>
+      <scroll-view class="order_scroll" scroll-y="true">
+        <block wx:for="{{orderDataAll}}" wx:key="index">
+          <!-- 待收货 -->
+          <view class="order_item" wx:if="{{item.status === 2}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+            <view class="shop_name">
+              <text>弘毅出版社旗舰店</text>
+              <text style="color: #8c8c8c;">待确认收货</text>
+            </view>
+            <!-- 订单详情 -->
+            <view class="look_more">
+              <view class="look_more_left">
+                <text>订单提交成功</text>
+                <text>{{item.createTime}}</text>
+              </view>
+              <view class="look_more_right">
+                <icon class="iconfont icon-xiangyou1"></icon>
+              </view>
+            </view>
+            <!-- 图书信息 -->
+            <!-- 直接从图书的详情页面购买的 -->
+            <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+              <view class="book_info_cover">
+                <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+              </view>
+              <view class="book_info_name">
+                <text>{{item.goodsInfo[0].name}}</text>
+                <text>x{{item.goodsInfo[0].num}}</text>
+              </view>
+            </view>
+            <!-- 从购物车页面挑选了多个商品购买的 -->
+            <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+              <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+                <!-- 图片列表 -->
+                <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+                  <image src="{{items.cover}}"></image>
+                  <text>x{{items.num}}</text>
+                </view>
+              </scroll-view>
+            </view>
+            <!-- 付款信息 -->
+            <view class="pay_info">
+              <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;实付款：</text>
+              <text>￥{{item.totalPrice}}</text>
+            </view>
+            <!-- 操作 -->
+            <view class="control">
+              <button class="return_goods" catchtap="func2" open-type="contact">退货/退款</button>
+              <text class="confirm_delivery_btn" catchtap="confirmEvent" data-index="{{index}}">确认收货</text>
+            </view>
+          </view>
+        </block>
+
+        <view class="space"></view>
+      </scroll-view>
+    </swiper-item>
+    <!-- 已完成 -->
+    <swiper-item>
+      <scroll-view class="order_scroll" scroll-y="true">
+        <block wx:for="{{orderDataAll}}" wx:key="index">
+          <view class="order_item" wx:if="{{item.status === 3}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+            <view class="shop_name">
+              <text>弘毅出版社旗舰店</text>
+              <text style="color: #8c8c8c;">已完成</text>
+            </view>
+            <!-- 订单详情 -->
+            <view class="look_more">
+              <view class="look_more_left">
+                <text>订单提交成功</text>
+                <text>{{item.createTime}}</text>
+              </view>
+              <view class="look_more_right">
+                <icon class="iconfont icon-xiangyou1"></icon>
+              </view>
+            </view>
+            <!-- 图书信息 -->
+            <!-- 直接从图书的详情页面购买的 -->
+            <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+              <view class="book_info_cover">
+                <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+              </view>
+              <view class="book_info_name">
+                <text>{{item.goodsInfo[0].name}}</text>
+                <text>x{{item.goodsInfo[0].num}}</text>
+              </view>
+            </view>
+            <!-- 从购物车页面挑选了多个商品购买的 -->
+            <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+              <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+                <!-- 图片列表 -->
+                <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+                  <image src="{{items.cover}}"></image>
+                  <text>x{{items.num}}</text>
+                </view>
+              </scroll-view>
+            </view>
+            <!-- 付款信息 -->
+            <view class="pay_info">
+              <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;实付款：</text>
+              <text>￥{{item.totalPrice}}</text>
+            </view>
+            <!-- 操作 -->
+            <view class="control">
+              <text class="cancel_btn" data-index="{{index}}" catchtap="deteleEvent">删除订单</text>
+            </view>
+          </view>
+        </block>
+
+        <view class="space"></view>
       </scroll-view>
     </swiper-item>
   </swiper>
+  <!-- 搜索列表 -->
+  <view wx:if="{{searching}}" class="order_search_list">
+    <block wx:for="{{searchList}}" wx:key="index">
+      <!-- 待付款 -->
+      <view class="order_item" wx:if="{{item.status === 0}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+        <view class="shop_name">
+          <text>弘毅出版社旗舰店</text>
+          <text>等待付款</text>
+        </view>
+        <!-- 订单详情 -->
+        <view class="look_more">
+          <view class="look_more_left">
+            <text>订单提交成功</text>
+            <text>{{item.createTime}}</text>
+          </view>
+          <view class="look_more_right">
+            <icon class="iconfont icon-xiangyou1"></icon>
+          </view>
+        </view>
+        <!-- 图书信息 -->
+        <!-- 直接从图书的详情页面购买的 -->
+        <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+          <view class="book_info_cover">
+            <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+          </view>
+          <view class="book_info_name">
+            <text>{{item.goodsInfo[0].name}}</text>
+            <text>x{{item.goodsInfo[0].num}}</text>
+          </view>
+        </view>
+        <!-- 从购物车页面挑选了多个商品购买的 -->
+        <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+          <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+            <!-- 图片列表 -->
+            <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+              <image src="{{items.cover}}"></image>
+              <text>x{{items.num}}</text>
+            </view>
+          </scroll-view>
+        </view>
+        <!-- 付款信息 -->
+        <view class="pay_info">
+          <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;需付款：</text>
+          <text>￥{{item.totalPrice}}</text>
+        </view>
+        <!-- 操作 -->
+        <view class="control">
+          <text class="cancel_btn" catchtap="cancelOrderEvent" data-index="{{index}}">取消订单</text>
+          <text class="pay_btn" catchtap="payEvent" data-index="{{index}}">立即支付</text>
+        </view>
+      </view>
+      <!-- 已付款待发货 -->
+      <view class="order_item" wx:if="{{item.status === 1}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+        <view class="shop_name">
+          <text>弘毅出版社旗舰店</text>
+          <text style="color: #8c8c8c;">待商家发货</text>
+        </view>
+        <!-- 订单详情 -->
+        <view class="look_more">
+          <view class="look_more_left">
+            <text>订单提交成功</text>
+            <text>{{item.createTime}}</text>
+          </view>
+          <view class="look_more_right">
+            <icon class="iconfont icon-xiangyou1"></icon>
+          </view>
+        </view>
+        <!-- 图书信息 -->
+        <!-- 直接从图书的详情页面购买的 -->
+        <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+          <view class="book_info_cover">
+            <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+          </view>
+          <view class="book_info_name">
+            <text>{{item.goodsInfo[0].name}}</text>
+            <text>x{{item.goodsInfo[0].num}}</text>
+          </view>
+        </view>
+        <!-- 从购物车页面挑选了多个商品购买的 -->
+        <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+          <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+            <!-- 图片列表 -->
+            <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+              <image src="{{items.cover}}"></image>
+              <text>x{{items.num}}</text>
+            </view>
+          </scroll-view>
+        </view>
+        <!-- 付款信息 -->
+        <view class="pay_info">
+          <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;实付款：</text>
+          <text>￥{{item.totalPrice}}</text>
+        </view>
+        <!-- 操作 -->
+        <view class="control">
+          <button class="return_goods" catchtap="func2" open-type="contact">退货/退款</button>
+        </view>
+      </view>
+      <!-- 已取消 -->
+      <view class="order_item" wx:if="{{item.status === -1}}" bindtap="toOrderDetailPage" data-id="{{item._id}}">
+        <view class="shop_name">
+          <text>弘毅出版社旗舰店</text>
+          <text style="color: #8c8c8c;">已取消</text>
+        </view>
+        <!-- 订单详情 -->
+        <view class="look_more">
+          <view class="look_more_left">
+            <text>订单提交成功</text>
+            <text>{{item.createTime}}</text>
+          </view>
+          <view class="look_more_right">
+            <icon class="iconfont icon-xiangyou1"></icon>
+          </view>
+        </view>
+        <!-- 图书信息 -->
+        <!-- 直接从图书的详情页面购买的 -->
+        <view class="order_info" wx:if="{{item.goodsInfo.length === 1}}">
+          <view class="book_info_cover">
+            <image mode="aspectFill" src="{{item.goodsInfo[0].cover}}"></image>
+          </view>
+          <view class="book_info_name">
+            <text>{{item.goodsInfo[0].name}}</text>
+            <text>x{{item.goodsInfo[0].num}}</text>
+          </view>
+        </view>
+        <!-- 从购物车页面挑选了多个商品购买的 -->
+        <view class="content_row_car" wx:if="{{item.goodsInfo.length !== 1}}">
+          <scroll-view scroll-x="{{true}}" class="content_row_scroll" enable-flex="true">
+            <!-- 图片列表 -->
+            <view class="cover_list" wx:for="{{item.goodsInfo}}" wx:for-item="items" wx:key="bookID">
+              <image src="{{items.cover}}"></image>
+              <text>x{{items.num}}</text>
+            </view>
+          </scroll-view>
+        </view>
+        <!-- 付款信息 -->
+        <view class="pay_info">
+          <text decode="true">共{{item.goodsInfo[0].num}}件商品&nbsp;&nbsp;&nbsp;&nbsp;需付款：</text>
+          <text>￥{{item.totalPrice}}</text>
+        </view>
+        <!-- 操作 -->
+        <view class="control">
+          <text class="cancel_btn" data-index="{{index}}" catchtap="deteleEvent">删除订单</text>
+        </view>
+      </view>
+    </block>
+  </view>
 </view>

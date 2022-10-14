@@ -9,6 +9,9 @@ Page({
   data: {
     defaultAddress: null,
     index: 0,
+    selectedGoods: [],
+    totalPrice: 0,
+    entry: '',
   },
 
   /**
@@ -34,6 +37,7 @@ Page({
       userInfo,
       entry,
       defaultAddress,
+      totalPrice: options.totalPrice * 1,
     })
     /* 
       分两个入口：
@@ -43,6 +47,12 @@ Page({
     */
     if (entry == 'detail') {
       this.getBookInfo(_id)
+    } else {
+      // 如果是从购物车页面跳转过来结算的
+      let selectedGoods = wx.getStorageSync('selectedGoods');
+      this.setData({
+        selectedGoods,
+      })
     }
   },
 
@@ -86,11 +96,11 @@ Page({
   },
 
   // 新增地址
-  toAddressPage() {
-    wx.navigateTo({
-      url: '/pages/address/address',
-    })
-  },
+  // toAddressPage() {
+  //   wx.navigateTo({
+  //     url: '/pages/address/address?address=payment',
+  //   })
+  // },
 
   // 减号事件
   subtractEvent(e) {
@@ -127,7 +137,9 @@ Page({
   // 跳转到添加收货地址页面（用户信息中没有保存收货地址时）
   toAddressPage(e) {
     console.log(e);
-    let {entry} = e.currentTarget.dataset
+    let {
+      entry
+    } = e.currentTarget.dataset
     if (entry) {
       wx.navigateTo({
         url: '/pages/address/address?entry=' + entry,
@@ -150,7 +162,8 @@ Page({
       entry,
       book,
       _id,
-      totalPrice
+      totalPrice,
+      selectedGoods,
     } = this.data;
     console.log(userInfo);
     console.log("_id: ", _id);
@@ -170,6 +183,16 @@ Page({
         num: book.num,
         bookID: _id
       })
+    } else {
+      goodsInfo = selectedGoods.map(item => {
+        return {
+          name: item.bookName,
+          cover: item.bookCover,
+          price: item.bookPrice,
+          num: item.num,
+          bookID: item._id
+        }
+      })
     }
     console.log("goodsInfo: ", goodsInfo);
     //  直接生成，不给更新
@@ -180,6 +203,8 @@ Page({
     let createTime = new Date().getTime();
     wx.cloud.database().collection('orders').add({
         data: {
+          deliveryTime: "",
+          receiveTime: "",
           createTime,
           orderID: 'D' + createTime,
           goodsInfo,

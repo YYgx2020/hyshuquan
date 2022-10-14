@@ -79,6 +79,21 @@ Page({
     // wx.setStorageSync('firstIn', true)
     // 获取数据库数据
     this.getBookList()
+    // 获取管理员列表
+    this.getAdminList();
+  },
+
+  // 获取管理员列表
+  getAdminList() {
+    wx.cloud.database().collection('admins')
+      .get()
+      .then(res => {
+        console.log(res);
+        app.globalData.adminList = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
   },
 
   // 从缓存中获取预加载的数据并进行处理

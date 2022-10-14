@@ -1,0 +1,119 @@
+<!--pages/orderDetail/orderDetail.wxml-->
+<view class="page_container">
+  <!-- 顶部显示订单状态 -->
+  <view class="order_status">
+    <text wx:if="{{orderInfo.status === -1}}">已取消</text>
+    <text wx:if="{{orderInfo.status === 0}}">待支付</text>
+    <text wx:if="{{orderInfo.status === 1}}">待发货</text>
+    <text wx:if="{{orderInfo.status === 2}}">待收货</text>
+    <text wx:if="{{orderInfo.status === 3 && !isAdmin}}">已完成</text>
+    <text wx:if="{{orderInfo.status === 3 && isAdmin}}">买家已确认收货</text>
+  </view>
+  <!-- 显示地址：
+      已取消-只显示默认地址 -1
+      待支付-提供修改地址功能 0
+      已支付待发货-只显示默认地址 1
+      已发货待确认收货-只显示默认地址 2
+      已收货待评价（订单完成）-只显示默认地址 3
+   -->
+  <view class="order_address">
+    <view class="address_icon">
+      <icon class="iconfont icon-31dingwei"></icon>
+    </view>
+    <view class="consignee_info">
+      <view class="c_info_top">
+        <text>{{orderInfo.address.consignee}}</text>
+        <text decode="true">&nbsp;&nbsp;{{phone}}</text>
+      </view>
+      <view class="c_info_bottom">
+        <text>{{addressDetail}}</text>
+      </view>
+    </view>
+    <view class="address_edit" wx:if="{{orderInfo.status === 0}}">
+      <icon style="font-size: 60rpx; position: relative; right: -30rpx; top: 10rpx;" class="iconfont icon-xiugai" bindtap="addressEdit"></icon>
+    </view>
+  </view>
+  <!-- 商品信息：列表展示
+      顶部是旗舰店名称
+      中间是图书信息列表
+      包括：
+      - 封面
+      - 书名
+      - 价格
+      - 数量
+      联系客服
+    -->
+  <view class="bookInfo_container">
+    <view class="shop_info">
+      <text>弘毅书圈旗舰店</text>
+    </view>
+    <view class="book_list" wx:for="{{orderInfo.goodsInfo}}" wx:key="index">
+      <view class="book_cover">
+        <image src="{{item.cover}}"></image>
+      </view>
+      <view class="book_name">
+        <text>{{item.name}}</text>
+        <text decode="true">￥{{item.price}}&nbsp;&nbsp;x{{item.num}}</text>
+      </view>
+    </view>
+    <view class="contact" wx:if="{{!isAdmin}}">
+      <button class="contact_btn" open-type="contact">在线客服</button>
+    </view>
+  </view>
+  <!-- 订单信息：
+      - 订单编号
+      - 下单时间
+      - 付款方式：购书币
+      - 配送方式：京东配送
+     -->
+  <view class="order_info">
+    <view class="order_id order_info_item">
+      <text>订单编号：</text>
+      <text selectable="{{true}}">{{orderInfo.orderID}}</text>
+    </view>
+    <view class="create_time order_info_item">
+      <text>下单时间：</text>
+      <text>{{createTime}}</text>
+    </view>
+    <view class="pay_way order_info_item">
+      <text>付款方式：</text>
+      <text>购书币支付</text>
+    </view>
+    <view class="distribution_way order_info_item">
+      <text>配送方式：</text>
+      <text>京东快递</text>
+    </view>
+  </view>
+  <!-- 商品金额信息：
+      - 商品金额总计
+      - 运费
+      - 需付款
+     -->
+  <view class="goods_amount">
+    <view class="goods_amount_item">
+      <text>商品金额总计：</text>
+      <text>￥{{orderInfo.totalPrice}}</text>
+    </view>
+    <view class="goods_amount_item">
+      <text>运费：</text>
+      <text>￥{{0}}</text>
+    </view>
+    <view class="goods_amount_item">
+      <text wx:if="{{!isAdmin}}">需付款：</text>
+      <text wx:else="{{isAdmin}}">已付款：</text>
+      <text id="need_to_pay">￥{{orderInfo.totalPrice}}</text>
+    </view>
+  </view>
+  <!-- 底部操作按钮：跟所有订单页面的一样 -->
+  <view class="space"></view>
+  <view class="control" wx:if="{{orderInfo.status === 0}}">
+    <text class="cancel_btn" bindtap="cancelOrderEvent" data-index="{{index}}">取消订单</text>
+    <text class="pay_btn" bindtap="payEvent" data-index="{{index}}">立即支付</text>
+  </view>
+  <view class="control" wx:if="{{orderInfo.status === -1}}">
+    <text class="cancel_btn" bindtap="deteleEvent" data-index="{{index}}">删除订单</text>
+  </view>
+  <view class="control" wx:if="{{isAdmin && item.status === 1}}">
+    <text class="pay_btn" bindtap="deliveryEvent" data-index="{{index}}">确认发货</text>
+  </view>
+</view>

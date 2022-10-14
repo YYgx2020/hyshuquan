@@ -1,6 +1,6 @@
 <!--pages/my/my.wxml-->
 <view class="my_page">
-  <view  class="header">
+  <view class="header">
     <view wx:if="{{!userInfo}}" class="no_login_panel">
       <view class="user_avatar" bindtap="login">
         <image src="../../images/user_avatar.png"></image>
@@ -31,12 +31,24 @@
     </view>
     <view class="order_fun_panel">
       <view data-view="{{item.toView}}" hover-class="fun_hover" class="fun_list_item" wx:for="{{funList}}" wx:key="index" bindtap="toAllOrderPage">
-        <icon class="iconfont {{item.icon}}"></icon>
-        <text>{{item.text}}</text>
+        <icon wx:if="{{item.id !== 4}}" class="iconfont {{item.icon}}"></icon>
+        <text wx:if="{{item.id !== 4}}">{{item.text}}</text>
+        <icon wx:if="{{item.id === 4 && userInfo === null}}" class="iconfont {{item.icon}}"></icon>
+        <text wx:if="{{item.id === 4 && userInfo === null}}">{{item.text}}</text>
+        <button open-type="contact" class="return_goods" wx:if="{{item.id === 4 && userInfo !== null}}">
+          <icon class="iconfont {{item.icon}}"></icon>
+          <text>{{item.text}}</text>
+        </button>
       </view>
+
     </view>
   </view>
   <view class="more_fun_panel">
+    <view wx:if="{{showAdmin}}" class="fun_item" bindtap="deliveryEvent">
+      <icon class="iconfont icon-daifahuodingdan"></icon>
+      <text>订单发货</text>
+      <icon class="iconfont icon-xiangyou1"></icon>
+    </view>
     <view class="fun_item" bindtap="toCarPage" hover-class="hover">
       <icon class="iconfont icon-31gouwuchexuanzhong"></icon>
       <text>购物车</text>
@@ -47,11 +59,11 @@
       <text>收货地址</text>
       <icon class="iconfont icon-xiangyou1"></icon>
     </view>
-    <view class="fun_item" hover-class="hover" bindtap="toCollectionPage">
+    <!-- <view class="fun_item" hover-class="hover" bindtap="toCollectionPage">
       <icon class="iconfont icon-shoucang"></icon>
       <text>收藏列表</text>
       <icon class="iconfont icon-xiangyou1"></icon>
-    </view>
+    </view> -->
     <view class="fun_item" hover-class="hover" bindtap="toChargePage">
       <icon class="iconfont icon-qiandai"></icon>
       <text>购书币</text>

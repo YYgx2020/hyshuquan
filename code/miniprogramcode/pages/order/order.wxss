@@ -104,11 +104,182 @@
   position: relative;
   /* width: 100%; */
   height: calc(100vh - 200rpx);
-  height: 100%;
 }
 
 .order_scroll {
   position: relative;
   top: 0;
   height: 100%;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-items: center; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* align-content: center; */
+}
+
+.order_item {
+  background-color: #fff;
+  border-radius: 10rpx;
+  padding: 40rpx 20rpx;
+  margin: 0 20rpx;
+  margin-top: 20rpx;
+  box-sizing: border-box;
+}
+
+.shop_name {
+  display: flex;
+  justify-content: space-between;
+}
+
+.shop_name text:nth-child(1) {
+  font-weight: 700;
+}
+
+.shop_name text:nth-child(2) {
+  color: red;
+  font-size: 24rpx;
+}
+
+.look_more {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.look_more_left {
+  display: flex;
+  flex-direction: column;
+}
+
+.look_more_left text:nth-child(1) {
+  font-size: 28rpx;
+}
+
+.look_more_left text:nth-child(2) {
+  padding-top: 10rpx;
+  font-size: 20rpx;
+}
+
+.order_info {
+  margin-top: 20rpx;
+  display: flex;
+
+}
+
+.book_info_cover {
+  width: 150rpx;
+  height: 150rpx;
+  margin-right: 20rpx;
+}
+
+.book_info_cover image {
+  border-radius: 10rpx;
+  width: 100%;
+  height: 100%;
+}
+
+.book_info_name {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.content_row_car {
+  width: calc(100%);
+}
+
+.content_row_scroll {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 160rpx;
+  margin-top: 20rpx;
+}
+
+.cover_list {
+  /* margin-top: 20rpx; */
+  /* padding-top: 20rpx; */
+  position: relative;
+  width: 160rpx;
+  height: 160rpx;
+  margin-right: 20rpx;
+}
+
+.cover_list image {
+  border-radius: 10rpx;
+  width: 160rpx;
+  height: 100%;
+}
+
+.cover_list text {
+  position: absolute;
+  color: #fff;
+  right: 10rpx;
+  bottom: 0rpx;
+}
+
+.pay_info {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.pay_info text:first-child {
+  font-size: 28rpx;
+}
+
+.pay_info text:last-child {
+  font-size: 32rpx;
+}
+
+.control {
+  margin-top: 30rpx;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 28rpx;
+}
+
+.return_goods:not([size='mini']) {
+  display: inline;
+  background-color: #fff;
+  border-radius: 40rpx;
+  border: 1rpx solid #b3b3b3;
+  font-size: 28rpx;
+  font-weight: 500;
+  width: auto;
+  height: auto;
+  padding: 10rpx 20rpx;
+  margin-right: 0rpx;
+}
+
+.cancel_btn {
+  padding: 10rpx 20rpx;
+  border: 1rpx solid #b3b3b3;
+  border-radius: 40rpx;
+}
+
+.pay_btn {
+  margin-left: 20rpx;
+  color: #fff;
+  padding: 10rpx 20rpx;
+  border: 1rpx solid #1abc9c;
+  border-radius: 40rpx;
+  background-color: #1abc9c;
+}
+
+.confirm_delivery_btn {
+  margin-left: 20rpx;
+  color: #fff;
+  padding: 10rpx 20rpx;
+  border: 1rpx solid #1abc9c;
+  border-radius: 40rpx;
+  background-color: #1abc9c;
+}
+
+.space {
+  position: relative;
+  padding: 40rpx;
 }
