@@ -1,5 +1,7 @@
 // pages/delivery/delivery.js
-import {formatTime} from '../../utils/util';
+import {
+  formatTime
+} from '../../utils/util';
 Page({
 
   /**
@@ -21,13 +23,17 @@ Page({
   // 切换
   changeEvent(e) {
     console.log(e);
-    let {tag} = e.currentTarget.dataset;
+    let {
+      tag
+    } = e.currentTarget.dataset;
     if (tag === '1') {
       this.setData({
         tag: 1,
       })
     } else {
-      let {deliverList} = this.data;
+      let {
+        deliverList
+      } = this.data;
       this.setData({
         tag: 2,
       })
@@ -71,7 +77,7 @@ Page({
             })
           })
       }
-      
+
     }
   },
 
@@ -155,35 +161,63 @@ Page({
             title: '数据更新中',
             mask: true,
           })
-          wx.cloud.database().collection('orders')
-            .where({
+          wx.cloud.callFunction({
+            name: 'updateOrderItem',
+            data: {
               _id,
               openid,
+              status: 2,
+              deliveryTime: new Date().getTime(),
+            }
+          }).then(res => {
+            console.log(res);
+            wx.hideLoading({
+              success: (res) => {},
             })
-            .update({
-              data: {
-                status: 2,
-                deliveryTime: new Date().getTime(),
-              }
+            // 重新拉取数据
+            this.getOrderList();
+          }).catch(err => {
+            console.log(err);
+            wx.hideLoading({
+              success: (res) => {},
             })
-            .then(res => {
-              wx.hideLoading({
-                success: (res) => {},
-              })
-              // 重新拉取数据
-              this.getOrderList();
+            wx.showToast({
+              title: '订单发货失败',
+              icon: 'error',
+              mask: true,
             })
-            .catch(err => {
-              console.log(err);
-              wx.hideLoading({
-                success: (res) => {},
-              })
-              wx.showToast({
-                title: '订单发货失败',
-                icon: 'error',
-                mask: true,
-              })
-            })
+          })
+
+          // wx.cloud.database().collection('orders')
+          //   .where({
+          //     _id,
+          //     openid,
+          //   })
+          //   .update({
+          //     data: {
+          //       status: 2,
+          //       deliveryTime: new Date().getTime(),
+          //     }
+          //   })
+          //   .then(res => {
+          //     console.log(res);
+          //     wx.hideLoading({
+          //       success: (res) => {},
+          //     })
+          //     // 重新拉取数据
+          //     this.getOrderList();
+          //   })
+          //   .catch(err => {
+          //     console.log(err);
+          //     wx.hideLoading({
+          //       success: (res) => {},
+          //     })
+          //     wx.showToast({
+          //       title: '订单发货失败',
+          //       icon: 'error',
+          //       mask: true,
+          //     })
+          //   })
         }
 
         if (res.cancel) {
